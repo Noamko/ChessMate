@@ -32,7 +32,7 @@ class lichess:
         res = requests.get("https://lichess.org/api/challenge", headers=AUTH)
         if res.status_code == 200:
             return json.loads(res.text)
-            
+
     def challange_ai(self, ai_level: int=1, clock_limit=300, clock_increment=1, days=1, variant="standard") -> str:
         res = requests.post("https://lichess.org/api/challenge/ai", data={"level": ai_level, "clock.limit": clock_limit, "clock.increment": clock_increment, "days": days, "variant": variant}, headers=AUTH)
         if res.status_code == 201:
@@ -58,20 +58,15 @@ class Board:
         raise NotImplemented
     def resignGame(self) -> bool:
         raise NotImplemented
-
     def __init__(self, game_id: str) -> None:
         self.game_id = game_id
-
     def fetchGameState(self):
         res = requests.get(f"https://lichess.org/api/board/game/stream/{self.game_id}", headers=AUTH)
         if res.status_code == 200:
             return json.loads(res.text)
 
     def make_move(self, move: str) -> bool:
-        res = requests.post(f"https://lichess.org/api/board/game/{self.game_id}/{move}", headers=AUTH)
+        res = requests.get(f"https://lichess.org/api/board/game/{self.game_id}/move/{move}", headers=AUTH)
         if res.status_code == 200:
             return True
         return False
-
-        
-        
