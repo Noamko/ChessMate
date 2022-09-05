@@ -1,18 +1,18 @@
 import requests
 import json
 
-TOKEN = "lip_8ZplIKWkEUprINd1vKQ6"
+TOKEN = "lip_IwkkMuJRrd2LbiHC5Dyq"
 LICHESS_API_URL = "https://lichess.org/api"
 
 # TODO: make requests calls async
 
 AUTH = {"authorization": f"Bearer {TOKEN}"}
 
-class LichessAcccount:
+class LichessAccount:
     def __init__(self, token=TOKEN):
         self.token = token
     
-    def getMyAccount(self) -> dict:
+    def get_my_account(self) -> dict:
         response = requests.get(f"{LICHESS_API_URL}/account", headers=AUTH)
         return response.json()
 
@@ -22,7 +22,7 @@ class LichessAcccount:
             return json.loads(res.text)
  
 
-class lichess:
+class blinchess:
     headers = {"Authorization": f"Bearer {TOKEN}"}
 
     def __init__(self, token=TOKEN) -> None:
@@ -44,10 +44,15 @@ class lichess:
             return True
         return False
 
-    def make_move():
-        raise NotImplemented
+    def make_move(self , game_id: str , move: str) -> bool:
+        res = requests.post(f'https://lichess.org/api/board/game/{game_id}/move/{move}',headers=AUTH)
+        if res.status_code == 200:
+            return True
+        return False
 
 class Board:
+    def __init__(self , game_id: str) -> None:
+        self.game_id = game_id
     def seek(self):
         raise NotImplemented
     def writeInChat(self, message: str) -> bool:
@@ -66,7 +71,7 @@ class Board:
             return json.loads(res.text)
 
     def make_move(self, move: str) -> bool:
-        res = requests.get(f"https://lichess.org/api/board/game/{self.game_id}/move/{move}", headers=AUTH)
+        res = requests.post(f"https://lichess.org/api/board/game/{self.game_id}/move/{move}", headers=AUTH)
         if res.status_code == 200:
             return True
         return False
