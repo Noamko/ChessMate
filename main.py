@@ -1,5 +1,18 @@
-from lichess import lichess
+import lichess
 
+class ChessMateServer:
+    # basic startup flow:
+    # 1. connect to mobile app
+    # 2. get lichess Cardentials
+    # 3. 
+    def __init__(self) -> None:
+        pass
+    
 
-lich = lichess()
-game_isd = lich.challange_ai()
+class LichessClient:
+    def __init__(self):
+        pass
+
+class Pboard:
+    def __init__(self) -> None:
+        pass
