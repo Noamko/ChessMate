@@ -1,6 +1,9 @@
 import lichess
 import json
 
-lich = lichess.blinchess()
-game_id = lich.challange_ai()['id']
-lich.make_move(game_id=game_id , move='e2e4')
+lich = lichess.lichess()
+game_info = lich.challange_ai()
+board = lichess.Board(game_info['id'])
+game_state = board.game_state()
+board.resign_game()
+print(game_state)

@@ -1,5 +1,6 @@
 import unittest
-from lichess import blinchess, LichessAccount, Board
+from lichess import lichess, LichessAccount, Board
+
 class TestLichessAPI(unittest.TestCase):
     # Account information tests
     def test_get_email(self):
@@ -13,18 +14,29 @@ class TestLichessAPI(unittest.TestCase):
         self.assertNotEqual(account, "")
     
     def test_challange_ai(self):
-        lich = blinchess()
+        lich = lichess()
         game = lich.challange_ai()
         self.assertNotEqual(game["id"], "")
         cancel = lich.cancel_challenge(game["id"])
         self.assertTrue(cancel)
 
     def test_make_move(self):
-        lich = blinchess()
+        lich = lichess()
         game = lich.challange_ai()
         board = Board(game['id'])
-        self.assertTrue(board.make_move('e2e4'))
-        cancel = lich.cancel_challenge(game["id"])
-        self.assertTrue(cancel)
+        if game['player'] != 'white':
+            self.assertTrue(board.make_move('e2e4'))
+        else:
+            self.assertTrue(board.make_move('e7e6'))
+        self.assertTrue(board.resign_game())
 
+    # def test_fetch_game_state(self):
+    #     lich = lichess()
+    #     game = lich.challange_ai()
+    #     board = Board(game['id'])
+    #     board.make_move('e2e4')
+    #     self.assertIsNotNone(board.fetch_game_state())
+        
+if __name__ == '__main__':
+    unittest.main()
     
