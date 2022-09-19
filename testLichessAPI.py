@@ -13,23 +13,39 @@ class TestLichessAPI(unittest.TestCase):
         account = lichess.get_my_account()
         self.assertNotEqual(account, "")
     
-    def test_challange_ai(self):
+    def test_challenge_ai(self):
         lich = lichess()
-        game = lich.challange_ai()
+        game = lich.challenge_ai()
         self.assertNotEqual(game["id"], "")
         cancel = lich.cancel_challenge(game["id"])
         self.assertTrue(cancel)
 
     def test_game_state(self):
         lich = lichess()
-        game = lich.challange_ai()
+        game = lich.challenge_ai()
         self.assertNotEqual(game['id'] , "")
-        board = Board(game["id"])
-        stream = board.game_state()
+        board = Board()
+        stream = board.game_state(game["id"])
         self.assertNotEqual(next(stream) , "")
-        self.assertEqual(board.resign_game() , True)
-    
-        
+        self.assertEqual(board.resign_game(game["id"]) , True)
+
+    def test_get_current_challenges(self):
+        lich = lichess()
+        challenges = lich.get_current_challenges()
+        self.assertNotEqual(challenges , '')
+
+    def test_cancel_challenge(self):
+        lich = lichess()
+        game = lich.challenge_ai()
+        self.assertNotEqual(game['id'] , "")
+        cancel = lich.cancel_challenge(game['id'])
+        self.assertEqual(cancel , True)
+
+    def test_create_challenge(self):
+        lich = lichess()
+        challenge = lich.create_challenge('nir_assistent')
+        self.assertIsNotNone(challenge)
+
 if __name__ == '__main__':
     unittest.main()
     
