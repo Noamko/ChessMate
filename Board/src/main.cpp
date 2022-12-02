@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "utils.h"
 #include "board.h"
 
 void setup() {
@@ -10,5 +9,6 @@ void setup() {
 
 void loop() {
   uint64_t state = read_board_state(); // read the state of the board
-  // print_uint64_t(state); // print the state
+  print_uint64_t(state); // print the state
 }
+
