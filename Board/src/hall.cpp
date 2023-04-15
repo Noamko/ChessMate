@@ -25,17 +25,16 @@ uint64_t scan_hall_array() {
 	return ~res;
 }
 
-char* hall_array_to_hex_string(uint64_t state, char* result) {
-	res[0] = '0';
-	res[1] = 'x';
+void hall_array_to_hex_string(uint64_t state, char buffer[]) {
+	buffer[0] = '0';
+	buffer[1] = 'x';
 	for (int i = 0; i < 16; i++) {
 		uint8_t val = (state >> (i * 4)) & 0xF;
 		if (val < 10) {
-			result[17 - i] = val + '0';
+			buffer[17 - i] = val + '0';
 		} else {
-			result[17 - i] = val - 10 + 'A';
+			buffer[17 - i] = val - 10 + 'A';
 		}
 	}
-	result[18] = 0;
-	return res;
+	buffer[18] = 0;
 }
