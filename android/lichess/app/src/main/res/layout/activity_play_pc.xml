@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+    <!-- Play against PC title -->
+    <TextView
+        android:id="@+id/tv_play_pc_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_opponent_level"
+        android:textColor="@android:color/black"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/group_pc_level"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginTop="16dp"/>
+    <!-- PC Level radio group -->
+    <RadioGroup
+        android:id="@+id/group_pc_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tv_play_pc_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <!-- Easy level radio button -->
+        <RadioButton
+            android:layout_marginStart="6dp"
+            android:id="@+id/rb_pc_easy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/easy_level"
+            android:checked="true"/>
+
+        <!-- Medium level radio button -->
+        <RadioButton
+            android:layout_marginStart="6dp"
+            android:id="@+id/rb_pc_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/medium_level"/>
+
+        <!-- Hard level radio button -->
+        <RadioButton
+            android:layout_marginStart="6dp"
+            android:id="@+id/rb_pc_hard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/high_level"/>
+    </RadioGroup>
+
+    <!-- Choose Your Color title -->
+    <TextView
+        android:id="@+id/tv_choose_color_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_color"
+        android:textColor="@android:color/black"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/group_pc_level"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Choose Your Color radio group -->
+    <RadioGroup
+        android:id="@+id/group_choose_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tv_choose_color_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp">
+
+        <!-- White color radio button -->
+        <RadioButton
+            android:layout_marginStart="16dp"
+            android:id="@+id/rb_color_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/White_color"
+            android:checked="true"/>
+        <RadioButton
+            android:layout_marginStart="16dp"
+            android:id="@+id/rb_color_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Black_color"
+            android:checked="true"/>
+    </RadioGroup>
+    <!-- Return to main menu button -->
+    <Button
+        android:id="@+id/btn_back_to_menu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/main_menu"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/play"
+        app:layout_constraintWidth_percent="0.5"/>
+
+    <Button
+        android:id="@+id/play"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/start_to_play"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_back_to_menu"
+        app:layout_constraintWidth_percent="0.5"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

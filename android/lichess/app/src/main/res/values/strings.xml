@@ -1,0 +1,26 @@
+<resources>
+    <!-- Main Menu -->
+    <string name="app_name">lichess</string>
+    <string name="playVsPC">Play against PC</string>
+    <string name="playOnline">Play online</string>
+    <string name="solvePuzzles">Solve puzzles</string>
+
+    <!-- Start a game-->
+    <string name="start_to_play">Play</string>
+
+    <!-- main menu-->
+    <string name="main_menu">Main menu</string>
+
+    <!-- Colors -->
+    <string name="select_color">Select color</string>
+    <string name="Black_color">Black</string>
+    <string name="White_color">White</string>
+
+    <!-- Opponent level -->
+    <string name="select_opponent_level">Select opponent level</string>
+    <string name="easy_level">Easy</string>
+    <string name="medium_level">Medium</string>
+    <string name="high_level">Hard</string>
+
+
+</resources>
