@@ -1,16 +1,19 @@
+#include <SpritzCipher.h>
+
+#include "Arduino.h"
 #include <FastLED.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define SERIAL_BAUDRATE 115200
 #define SEND_STATE(x) Serial.write(x, 4)
 #define PORT_MESSURE_DELAY_MS 10
 #define SERIAL_BUFFER_SIZE 100
-#define FETCH_COMMAND(x) Serial.readBytesUntil('\n', x, SERIAL_BUFFER_SIZE)
 
 uint64_t scan_hall_array();
 void hall_array_to_hex_string(uint64_t state, char buffer[]);
 void handle_serial_command(void (*callback)(char*));
-void fetch_commands();
+int fetch_command(char buffer[]);
 
 void setup() {
 	DDRA = 0;	// set all pins of PORTA as input
@@ -21,47 +24,20 @@ void setup() {
 void loop() {
 	uint64_t state = scan_hall_array();
 	uint8_t arr[4] = {(uint8_t)(state >> 24), (uint8_t)(state >> 16), (uint8_t)(state >> 8), (uint8_t)state};
-	SEND_STATE(arr);
+	// SEND_STATE(arr);
+	// delay(1000);
 }
 
 void serialEvent() {
   // This function is called automatically
   // by the Arduino framework whenever there
   // is new serial data available
-  char buffer[SERIAL_BUFFER_SIZE];
-  size_t read = FETCH_COMMAND(buffer);
-  if (read > 0) {
-	// We have a command!
-	// Do something with it
-  }
-  else if (strcmp(buffer, "test")) {
-	Serial.write("test ok");
-  }
+  char buffer[5];
+  fetch_command(buffer);
+  Serial.println(buffer);
+  
 }
 
-void fetch_commands() {
-	while (Serial.available()) {
-		char c = Serial.read();
-		if (c == 0 ) {
-			handle_serial_command([](char* cmd) {
-				Serial.println(cmd);
-			});
-		}
-	}
-} 
-/* scan_hall_array()
-- exmaple output: 0xC3C3C3C3C3C3C3C3
-= 110000011 110000011 110000011 110000011 110000011 110000111 110000001 110000011
-
-=   1 1 1 1 1 1 1 1
-    1 1 1 1 1 1 1 1
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 1 0 0
-    1 1 1 1 1 1 1 1
-    1 1 1 1 1 1 0 1
-*/
 uint64_t scan_hall_array() {
 	PORTC = 1 << 0; // SET PCO to HIGH
 	delay(PORT_MESSURE_DELAY_MS);
@@ -74,6 +50,23 @@ uint64_t scan_hall_array() {
 	return ~res;
 }
 
+int fetch_command(char buffer[]) {
+        uint8_t strlen = 5;
+        //int res = Serial.readBytes(&strlen, 1);
+		// Serial.println("got length: " +String(strlen));
+		int res = 1;
+		if (res <= 0) {
+			// error
+			return -1;
+		}
+		// res = Serial.readBytes(buffer, strlen);
+		res = Serial.readBytesUntil('\n', buffer, 100);
+		if (res <= 0) {
+			// error
+			return -1;
+		}
+
+}
 void hall_array_to_hex_string(uint64_t state, char buffer[]) {
 	buffer[0] = '0';
 	buffer[1] = 'x';
