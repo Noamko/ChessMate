@@ -24,17 +24,17 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, PlayAgainstPCActivity.class);
             startActivity(intent);
         });
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 500051)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("10.0.0.178", 50051)
                 .usePlaintext()
                 .build();
 
         GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
-
+//
         HelloRequest request =  HelloRequest.newBuilder()
-                .setName("Bobi boten").build();
+                .setName("Bobiboten").build();
         HelloReply res = stub.sayHello(request);
-
-        System.out.println(res.getMessage());
-        channel.shutdown();
+//
+//        System.out.println(res.getMessage());
+//        channel.shutdown();
     }
 }
