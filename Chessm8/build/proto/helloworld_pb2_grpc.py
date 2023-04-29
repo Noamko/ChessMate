@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import server_pb2 as server__pb2
+import helloworld_pb2 as helloworld__pb2
 
 
-class HelloWorldStub(object):
+class GreeterStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -15,13 +15,13 @@ class HelloWorldStub(object):
             channel: A grpc.Channel.
         """
         self.SayHello = channel.unary_unary(
-                '/server.HelloWorld/SayHello',
-                request_serializer=server__pb2.HelloRequest.SerializeToString,
-                response_deserializer=server__pb2.HelloResponse.FromString,
+                '/helloworld.Greeter/SayHello',
+                request_serializer=helloworld__pb2.HelloRequest.SerializeToString,
+                response_deserializer=helloworld__pb2.HelloReply.FromString,
                 )
 
 
-class HelloWorldServicer(object):
+class GreeterServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def SayHello(self, request, context):
@@ -31,21 +31,21 @@ class HelloWorldServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_HelloWorldServicer_to_server(servicer, server):
+def add_GreeterServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SayHello': grpc.unary_unary_rpc_method_handler(
                     servicer.SayHello,
-                    request_deserializer=server__pb2.HelloRequest.FromString,
-                    response_serializer=server__pb2.HelloResponse.SerializeToString,
+                    request_deserializer=helloworld__pb2.HelloRequest.FromString,
+                    response_serializer=helloworld__pb2.HelloReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'server.HelloWorld', rpc_method_handlers)
+            'helloworld.Greeter', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class HelloWorld(object):
+class Greeter(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -59,8 +59,8 @@ class HelloWorld(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/server.HelloWorld/SayHello',
-            server__pb2.HelloRequest.SerializeToString,
-            server__pb2.HelloResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/helloworld.Greeter/SayHello',
+            helloworld__pb2.HelloRequest.SerializeToString,
+            helloworld__pb2.HelloReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

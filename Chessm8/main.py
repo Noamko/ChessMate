@@ -13,22 +13,20 @@ from concurrent import futures
 import sys
 import grpc
 sys.path.append("build/proto")
-import server_pb2
-import server_pb2_grpc
-
-
-class HelloWorldServicer(server_pb2_grpc.HelloWorldServicer):
-    def SayHello(self, request, context):
-        return server_pb2.HelloResponse(message='Hello, %s!' % request.name)
+import helloworld_pb2
+import helloworld_pb2_grpc
 
 def serve():
+
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    server_pb2_grpc.add_HelloWorldServicer_to_server(HelloWorldServicer(), server)
+    helloworld_pb2_grpc.add
     server.add_insecure_port('[::]:50051')
+    print("go")
     server.start()
     server.wait_for_termination()
 
 def main():
+    print("starting grpc server")
     serve()
 
 if __name__ == '__main__':
