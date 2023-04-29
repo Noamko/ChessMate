@@ -55,5 +55,10 @@ public class PlayAgainstPCActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        Button play_button = findViewById(R.id.play);
+        play_button.setOnClickListener(v -> {
+            Intent intent = new Intent(PlayAgainstPCActivity.this, GameActivity.class);
+            startActivity(intent);
+        });
     }
 }
