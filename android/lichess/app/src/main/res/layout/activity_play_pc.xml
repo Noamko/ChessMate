@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/easy_level"
-            android:checked="true"/>
+            />
 
         <!-- Medium level radio button -->
         <RadioButton
@@ -46,7 +46,8 @@
             android:id="@+id/rb_pc_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/medium_level"/>
+            android:text="@string/medium_level"
+            android:checked="true"/>
 
         <!-- Hard level radio button -->
         <RadioButton
@@ -96,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Black_color"
-            android:checked="true"/>
+            />
     </RadioGroup>
     <!-- Return to main menu button -->
     <Button
