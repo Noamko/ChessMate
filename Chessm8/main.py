@@ -9,29 +9,17 @@
         3. Initialize chess engine
         4. Wait for commands from Android app
 """
-from concurrent import futures
 import sys
-import grpc
-sys.path.append("build/proto")
-import helloworld_pb2
-import helloworld_pb2_grpc
+import time
+import os
+from engine import CMEngine
 
-class GreeterServicer(helloworld_pb2_grpc.GreeterServicer):
-    def SayHello(self, request, context):
-        print("hello")
-        return helloworld_pb2.HelloReply(message='Hello, %s!' % request.name)
-def serve():
-
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    helloworld_pb2_grpc.add_GreeterServicer_to_server(GreeterServicer(), server)
-    server.add_insecure_port('[::]:50051')
-    print("go")
-    server.start()
-    server.wait_for_termination()
 
 def main():
-    print("starting grpc server")
-    serve()
+    # start chessm8 engine
+    print("Starting ChesssMate ")
+    engine = CMEngine()
+    engine.start()
 
 if __name__ == '__main__':
     main()

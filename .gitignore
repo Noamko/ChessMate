@@ -3,3 +3,5 @@ __pycache__
 Board/.cache
 Board/Compile_commands.json
 Board/build
+board/build
+Chessm8/build

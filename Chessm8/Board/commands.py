@@ -1,0 +1,2 @@
+GET_BOARD_STATE = 0x10
+
