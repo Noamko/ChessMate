@@ -1,8 +1,13 @@
 import unittest
+import sys
+import os
+sys.path.append(f"{os.getcwd()}/Chessm8/lichess")
 from lichess import lichess, LichessAccount, Board
 
-class TestLichessAPI(unittest.TestCase):
-    
+class TestLichess(unittest.TestCase):
+    def setUp(self):
+        pass
+
     def test_get_email(self):
         lichess = LichessAccount()
         email = lichess.getEmail()

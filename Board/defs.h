@@ -6,6 +6,7 @@
 #define PORT_MESSURE_DELAY_MS 10
 #define SERIAL_BUFFER_SIZE 100
 
+// COMMANDS
 #define SET_LEDS 0
 #define GET_STATE 1
 
