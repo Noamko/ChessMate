@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.chessmate.game";
+option java_outer_classname = "GameProto";
+
+package game;
+
+service Game {
+    rpc ChallengeAI (ChallengeAIRequest) returns (ChallengeAIResponse) {}
+    rpc EndTurn (EndTurnRequest) returns (EndTurnResponse) {}
+    rpc GetClock (GetClockRequest) returns (GetClockResponse) {}
+}
+
+message GetClockRequest {
+    string gameid = 1;
+}
+
+message GetClockResponse {
+    int32 whiteTime = 1;
+    int32 blackTime = 2;
+}
+
+message ChallengeAIRequest {
+    int32 aiLevel = 1;
+    int32 color = 2;
+}
+
+message ChallengeAIResponse {
+
+    string gameid = 1;
+    enum ChallengeError {
+        OK = 0;
+        BOARD_NOT_READY = 1;
+    }
+    ChallengeError error = 2;
+}
+
+message EndTurnRequest {
+    string gameid = 1;
+}
+
+message EndTurnResponse {
+    string gameid = 1;
+}
