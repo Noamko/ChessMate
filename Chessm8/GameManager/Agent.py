@@ -38,4 +38,13 @@ class StockfishAgent(ChessAgent):
         # Make the move on the board
         if move is not None:
             board.push_uci(move)
+
+class SerialAgent(ChessAgent):
+    def __init__(self, serial_port):
+        self.port = serial_port
+    def do_move(self, board):
+        pass
+        
+        
+      
                 
