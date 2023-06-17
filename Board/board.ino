@@ -3,32 +3,31 @@
 #include "hall.h"
 #include "led.h"
 #include <FastLED.h>
-
 #include "commands.h"
 
-typedef int32_t serial_command;
+typedef uint8_t cmd_identfier_t;
+typedef uint64_t* msg_data_t;
 
 struct board_request_msg {
-  uint8_t id;
+  cmd_identfier_t id;
   uint32_t args_len;
-  uint64_t* args;
+  msg_data_t args;
 };
 
 struct board_replay_msg {
-  uint8_t id;
+  cmd_identfier_t id;
   uint32_t params_len;
-  uint64_t* params;
+  msg_data_t params;
 };
 
 void test(uint64_t state);
 void handle_request(board_request_msg msg);
-void handle_serial_command(serial_command command);
 void state_to_sqaures(uint64_t state, SquareName arr[]);
-size_t active_squares(uint64_t state, SquareName arr[]);
+int active_squares(uint64_t state, SquareName arr[]);
 int get_request(struct board_request_msg *msg);
 
 LedControl *led_ctl;
-
+int loop_delay_ms = 100;
 void setup() {
   #ifdef __AVR_ATmega2560__ 
   DDRA = 0;     // set all pins of PORTA as input
@@ -38,7 +37,17 @@ void setup() {
   led_ctl = new LedControl();
 }
 
-void loop() {}
+uint64_t prev_state = 1;
+void loop() {
+  uint64_t state = scan_hall_array();
+  if (state != prev_state) {
+    prev_state = state;
+    board_replay_msg replay = {BOARD_STATE_CHANGED, 1, &state};
+    Serial.write((uint8_t *)&replay, 1 + 4 + 8 * 1);
+    Serial.flush();
+  }
+  delay(loop_delay_ms);
+}
 
 void serialEvent() {
   board_request_msg msg = {0};
@@ -52,7 +61,7 @@ void serialEvent() {
 }
 
 int get_request(struct board_request_msg* msg) {
-  serial_command command = 0;
+  cmd_identfier_t command = 0;
   int res = Serial.readBytes((char *)&command, 4);
 
   // read the args length
@@ -100,7 +109,7 @@ void state_to_sqaures(uint64_t state, SquareName arr[]) {
   }
 }
 
-size_t active_squares(uint64_t state, SquareName arr[]) {
+int active_squares(uint64_t state, SquareName arr[]) {
   int index = 0;
   for (int i = 0; i < NUM_LEDS; i++) {
     if ((state >> i) & 1 == 1) {

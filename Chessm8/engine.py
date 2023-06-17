@@ -2,18 +2,31 @@ import threading
 import time
 import sys
 import os
-sys.path.append("build/proto")
+sys.path.append(f"{os.getcwd()}/Chessm8/build/proto")
+sys.path.append(f"{os.getcwd()}/Chessm8/Board")
 from concurrent import futures
 import grpc
 from message_pb2 import CommandRequest, CommandResponse, CommandError
 import message_pb2_grpc
+from GameManager import GameManager
+from GameManager import Agent
+import Board
+from Board import Commands
+
 
 class CMEngine(message_pb2_grpc.CommandServicer):
     def __init__(self):
         self.current_game = None
         self.current_game_thread = None
-        self.rpc_thread = None
-    
+
+        # init board
+        self.board_com = Board.SerialCommunication("/dev/tty.usbserial-10", 115200)
+        self.board_notification_observer_thread = threading.Thread(target=self.serialHandler)
+        self.board_com.send(Board.BoardMessage.create(command=Commands.PING_REQUEST, args=[]))
+        self.board_notification_observer_thread.start()
+        self.state_observers = []
+
+
     def Execute(self, request, context):
         response = CommandResponse()
         # get the oneof field
@@ -25,12 +38,10 @@ class CMEngine(message_pb2_grpc.CommandServicer):
             else:
                 level = request.challengeAI.level
                 color = request.challengeAI.color
-                black_timer = request.challengeAI.black_timer
-                white_timer = request.challengeAI.white_timer
-                ai_agent = stockfish_agent(level=level)
-                serial_agent = serial_agent()
+                stockfish_agent = Agent.StockfishAgent(10, level)
+                serial_agent = Agent.SerialAgent()
 
-                waitForBoard()
+                # wait for board state
 
                 self.current_game = game(level, color, black_timer, white_timer)
                 self.current_game_thread = threading.Thread(target=self.current_game.start)
@@ -39,6 +50,27 @@ class CMEngine(message_pb2_grpc.CommandServicer):
        
         response.error.msg = "No such command"
         return response
+
+    def waitForBoard(self):
+        pass
+
+    def serialHandler(self):
+        while True:
+            id = int.from_bytes(self.board_com.read(1))
+            if id == Commands.BOARD_STATE_CHANGED:
+                # get the board state
+                data_len_bytes = self.board_com.read(4)
+                data_len = int.from_bytes(data_len_bytes, byteorder='little')
+
+                data_bytes = self.board_com.read(8 * data_len)
+                state = int.from_bytes(data_bytes, byteorder='little')
+
+                for observer in self.state_observers:
+                    observer.notify(state)
+                print("Board state changed")
+                print(state)
+            elif id == Commands.PING_RESPONSE:
+                print("Ping response")
 
     def start(self):
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

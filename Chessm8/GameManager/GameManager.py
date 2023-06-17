@@ -14,10 +14,8 @@ class GameManager:
     def create_game(self,white_agent, black_agent) -> threading.Thread:
         # create the game
         self.current_game = Game(white_agent, black_agent)
-        return self.current_game
-        # self.current_game_thread = threading.Thread(target=self.current_game.start)
-        # self.current_game_thread.start()
-        # return self.current_game_thread
+        self.current_game_thread = threading.Thread(target=self.current_game.start)
+        return self.current_game_thread
 
 class Game:
     def __init__(self, white_agent, black_agent):
@@ -37,6 +35,7 @@ class Game:
         # Game is over
         result = board.result()
         print("Game over. Result: {}".format(result))
+        return result
                     
 
 

@@ -1,6 +1,18 @@
 import serial
 import time
-import commands
+
+class Commands:
+    PING_REQUEST = 0xA0
+    PING_RESPONSE = 0xA1
+    BOARD_STATE_CHANGED = 0xAA
+    GET_BOARD_STATE_REQUEST = 0xA2
+    GET_BOARD_STATE_RESPONSE = 0xA3
+    SET_LEDS_STATE_REQUEST = 0xA4
+    SET_LEDS_STATE_RESPONSE = 0xA5
+    GET_LAST_MODIFED_SQUARE_REQUEST = 0xA6
+    GET_LAST_MODIFED_SQUARE_RESPONSE = 0xA7
+
+
 
 class BoardRequest:
     @staticmethod
@@ -26,3 +38,5 @@ class SerialCommunication:
         self.serial.write(data)
     def read(self, count) -> bytes:
         return self.serial.read(count)
+
+

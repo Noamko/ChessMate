@@ -5,6 +5,7 @@ import os
 sys.path.append(f"{os.getcwd()}/Chessm8/Board")
 import time
 import Board
+from Board import Commands
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
@@ -14,7 +15,7 @@ class TestBoard(unittest.TestCase):
     def test_board_communication(self):
         print("Seding ping")
         # create a ping message
-        command = Board.commands.PING_REQUEST
+        command = Commands.PING_REQUEST
         args = []
         message = Board.BoardMessage.create(command=command, args=args)
         self.board_com.send(message)
@@ -22,10 +23,10 @@ class TestBoard(unittest.TestCase):
         print("Waiting for response")
         response = int.from_bytes(self.board_com.read(1))
         print(f"Got response: {response}")
-        self.assertEqual(response, Board.commands.PING_RESPONSE)
+        self.assertEqual(response, Commands.PING_RESPONSE)
 
     def test_get_board_state(self):
-        command = Board.commands.GET_BOARD_STATE_REQUEST
+        command = Commands.GET_BOARD_STATE_REQUEST
         args = []
         message = Board.BoardMessage.create(command=command, args=args)
         self.board_com.send(message)
@@ -38,7 +39,7 @@ class TestBoard(unittest.TestCase):
         print(f"Got args_len: {args_len}")
         args = self.board_com.read(8 * args_len)
         state = int.from_bytes(args, byteorder='little')
-        self.assertEqual(id, Board.commands.GET_BOARD_STATE_RESPONSE)
+        self.assertEqual(id, Commands.GET_BOARD_STATE_RESPONSE)
         self.assertEqual(args_len, 1)
     
     def test_leds(self):
