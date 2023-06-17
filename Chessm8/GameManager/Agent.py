@@ -3,7 +3,9 @@ import stockfish
 import chess
 
 class ChessAgent:
-    def do_move(self, board):
+    def __init__(self, callbacks = []):
+        self.callbacks = callbacks
+    def do_move(self, board, callbacks):
         pass
 
 class TerminalAgent(ChessAgent):
@@ -20,10 +22,10 @@ class TerminalAgent(ChessAgent):
             except ValueError:
                 print("Illegal move, try again")
                 continue
-        
 
 class StockfishAgent(ChessAgent):
-    def __init__(self, depth, level):
+    def __init__(self, depth, level, callbacks = []):
+        super.__init__(callbacks)
         self.engine = stockfish.Stockfish()
         self.engine.set_depth(depth)
         self.engine.set_skill_level(level)
@@ -38,12 +40,19 @@ class StockfishAgent(ChessAgent):
         # Make the move on the board
         if move is not None:
             board.push_uci(move)
+            for callback in self.callbacks:
+                callback(move)
 
 class SerialAgent(ChessAgent):
-    def __init__(self, serial_port):
+    def __init__(self, serial_port, callbacks = []):
+        super.__init__(callbacks)
         self.port = serial_port
     def do_move(self, board):
-        pass
+        move = get_move_callback()
+        board.push_uci(move)
+        for callback in self.callbacks:
+            callback(move)
+
         
         
       

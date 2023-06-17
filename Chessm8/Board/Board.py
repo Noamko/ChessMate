@@ -12,8 +12,6 @@ class Commands:
     GET_LAST_MODIFED_SQUARE_REQUEST = 0xA6
     GET_LAST_MODIFED_SQUARE_RESPONSE = 0xA7
 
-
-
 class BoardRequest:
     @staticmethod
     def create(command, args) -> bytes:
