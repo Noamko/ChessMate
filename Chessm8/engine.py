@@ -16,8 +16,7 @@ from Board import Commands
 
 class CMEngine(message_pb2_grpc.CommandServicer):
     def __init__(self):
-        self.current_game = None
-        self.current_game_thread = None
+        self.game_manager = GameManager()
 
         # init board
         self.board_com = Board.SerialCommunication("/dev/tty.usbserial-10", 115200)
@@ -25,7 +24,6 @@ class CMEngine(message_pb2_grpc.CommandServicer):
         self.board_com.send(Board.BoardMessage.create(command=Commands.PING_REQUEST, args=[]))
         self.board_notification_observer_thread.start()
         self.state_observers = []
-
 
     def Execute(self, request, context):
         response = CommandResponse()
@@ -36,14 +34,22 @@ class CMEngine(message_pb2_grpc.CommandServicer):
                 res.error.msg = "Already in a game"
                 return response
             else:
+                # create a new game
                 level = request.challengeAI.level
                 color = request.challengeAI.color
+
                 stockfish_agent = Agent.StockfishAgent(10, level)
-                serial_agent = Agent.SerialAgent()
+                # serial_agent = Agent.SerialAgent(lambda: parser.get_move())
+                termianl_agent = Agent.TerminalAgent()
+                
+                
+                if color == "white":
+                    self.current_game = self.game_manager.create_game(stockfish_agent, serial_agent)
+                else:
+                    self.current_game = self.game_manager.create_game(serial_agent, stockfish_agent)
 
                 # wait for board state
 
-                self.current_game = game(level, color, black_timer, white_timer)
                 self.current_game_thread = threading.Thread(target=self.current_game.start)
                 self.current_game_thread.start()
                 return response
