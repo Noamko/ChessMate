@@ -35,6 +35,7 @@ void setup() {
   #endif
   Serial.begin(115200);
   led_ctl = new LedControl();
+  led_ctl->reset();
 }
 
 uint64_t prev_state = 1;
@@ -43,8 +44,8 @@ void loop() {
   if (state != prev_state) {
     prev_state = state;
     board_replay_msg replay = {BOARD_STATE_CHANGED, 1, &state};
-    Serial.write((uint8_t *)&replay, 1 + 4 + 8 * 1);
-    Serial.flush();
+  //  Serial.write((uint8_t *)&replay, 1 + 4 + 8 * 1);
+    //Serial.flush();
   }
   delay(loop_delay_ms);
 }
@@ -93,9 +94,12 @@ void handle_request(board_request_msg msg) {
     Serial.write((uint8_t *)&replay, 1+4+8*1);
     break;
 
-  // case SET_LEDS_STATE_REQUEST:
-  //   uint64_t squares_raw = msg.args[0];
-
+  case SET_LEDS_STATE_REQUEST:
+	uint64_t squares_raw = msg.args[0];
+  led_ctl->set(squares_raw, CRGB::Red, 100);
+    replay = {SET_LEDS_STATE_RESPONSE, 0, NULL};
+    Serial.write((uint8_t *)&replay, 1);
+    break;
 
   }
 }

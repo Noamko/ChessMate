@@ -31,27 +31,13 @@ void LedControl::set(SquareName square[], int num_of_squares, color_t color,
   FastLED.show();
 }
 
-void LedControl::fade(SquareName square[], color_t color, int brightness,
-                      int duration) {
-  // Turn off all leds
-  this->reset();
-  int num_of_squares =3;
-  for (int i = 0; i < num_of_squares; i++) {
-    LOG("number of squares %d", num_of_squares);
-    int index = (int)square[i];
-    LOG("Setting led %d to color %d", index, color);
-    this->leds[index] = color;
-    // FastLED.show();
+void LedControl::set(uint64_t leds, color_t color, int brightness) {
+  for (int i = 0; i < NUM_LEDS; i++) {
+      this->leds[i] = color;
   }
-  for (int i = 0; i < duration; i++) {
-    // FastLED.setBrightness((i));
-    FastLED.clear();
-    FastLED.show(i);
-    delay(100);
-    LOG("brightness %d", int(i));
-  }
+  FastLED.setBrightness(brightness);
+  FastLED.show();
 }
-
 void LedControl::reset() {
   for (int i = 0; i < NUM_LEDS; i++) {
     this->leds[i] = color_t::Black;

@@ -15,18 +15,13 @@ class Commands:
 class BoardRequest:
     @staticmethod
     def create(command, args) -> bytes:
-        return bytes([command, len(args)] + args)
+        return bytes([command, len(args)]) + bytes(args) 
 
 class BoardResponse:
     def __init__(self, data):
         self.id = data[0]
         self.args_len = data[1:5]
         self.args = data[5:]
-
-class BoardMessage:
-    @staticmethod
-    def create(command, args) -> bytes:
-        return bytes([command, len(args)] + args)
 
 class SerialCommunication:
     def __init__(self, port, baudrate):
