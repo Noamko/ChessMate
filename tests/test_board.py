@@ -2,7 +2,7 @@
 import unittest
 import sys
 import os
-sys.path.append(f"../Chessm8/Board")
+sys.path.append(f"{os.getcwd()}/Chessm8/Board")
 import time
 import Board
 from Board import Commands
@@ -14,10 +14,10 @@ class TestBoard(unittest.TestCase):
         for port in serial.tools.list_ports.comports():
             print(f"port:::: {port.device}, {port.name}, {port.description}, {port.hwid}, {port.vid}, {port.pid}")
             if port.pid != None:
-                self.board_com = Board.SerialCommunication(port.device, 115200)
+                self.board_com = Board.SerialCommunication()
                 break
-            if self.board_com is None:
-                raise Exception("No board found")
+        if self.board_com is None:
+            raise Exception("No board found")
     
     def test_board_communication(self):
         print("Seding ping")
@@ -51,15 +51,15 @@ class TestBoard(unittest.TestCase):
     
     def test_leds(self):
         command = Board.Commands.SET_LEDS_STATE_REQUEST
-        args = [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]
+        args = [0xff, 0xff, 0x0, 0x0, 0x0, 0x0 ,0x0 ,0x0]
         message = Board.BoardRequest.create(command=command, args=args)
         self.board_com.send(message)
 
         print("Waiting for response")
 
-        # response = int.from_bytes(self.board_com.read(1))
-        # print("turn off leds")
-        # self.board_com.send(bytes([0x1]))
+        response = int.from_bytes(self.board_com.read(1), byteorder='big')
+        print(f"Got response: {response}")
+        self.assertEqual(response, Board.Commands.SET_LEDS_STATE_RESPONSE)
 
 
 if __name__ == '__main__':
