@@ -16,12 +16,13 @@ from Board import Commands
 
 class CMEngine(message_pb2_grpc.CommandServicer):
     def __init__(self):
-        self.game_manager = GameManager()
-
+        self.game_manager = GameManager.GameManager()
+    
         # init board
-        self.board_com = Board.SerialCommunication("/dev/tty.usbserial-10", 115200)
+        self.board_com = Board.SerialCommunication()
         self.board_notification_observer_thread = threading.Thread(target=self.serialHandler)
-        self.board_com.send(Board.BoardMessage.create(command=Commands.PING_REQUEST, args=[]))
+
+        # self.board_com.send(Board.BoardRequest.create(command=Commands.PING_REQUEST, args=[]))
         self.board_notification_observer_thread.start()
         self.state_observers = []
 
@@ -74,7 +75,7 @@ class CMEngine(message_pb2_grpc.CommandServicer):
                 for observer in self.state_observers:
                     observer.notify(state)
                 print("Board state changed")
-                print(state)
+                print(hex(state))
             elif id == Commands.PING_RESPONSE:
                 print("Ping response")
 

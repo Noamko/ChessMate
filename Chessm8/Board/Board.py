@@ -1,5 +1,6 @@
 import serial
 import time
+import serial.tools.list_ports
 
 class Commands:
     PING_REQUEST = 0xA0
@@ -24,8 +25,15 @@ class BoardResponse:
         self.args = data[5:]
 
 class SerialCommunication:
-    def __init__(self, port, baudrate):
-        self.serial = serial.Serial(port, baudrate)
+    def __init__(self):
+        # detect the port
+        port = None
+        for p in serial.tools.list_ports.comports():
+            print(p.description)
+            if p.pid != None:
+                port = p.device
+                break
+        self.serial = serial.Serial(port, 115200)
         time.sleep(3) # wait for the board to boot
     def send(self, data):
         self.serial.write(data)
