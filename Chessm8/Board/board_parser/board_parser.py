@@ -1,4 +1,4 @@
-from parsing_utils import convert_bit_to_location, position_to_int
+from parsing_utils import convert_bit_to_square, position_to_int
 # h1 is 1 and a8 is 9223372036854775808
 CASTLING_DOWN_RIGHT = 15
 CASTLING_DOWN_LEFT = 232
@@ -87,19 +87,19 @@ class MoveCalculator:
         move = ''
         changed_position = current_board ^ self.board
         move_from = changed_position & self.board
-        move += convert_bit_to_location(move_from)
+        move += convert_bit_to_square(move_from)
         from_to = last_move ^ self.board
         move_to = from_to & current_board
-        move += convert_bit_to_location(move_to)
+        move += convert_bit_to_square(move_to)
         return move
 
     def move_without_eating(self, current_board):
         move = ''
         changed_position = current_board ^ self.board
         move_from = changed_position & self.board
-        move += convert_bit_to_location(move_from)
+        move += convert_bit_to_square(move_from)
         move_to = changed_position & current_board
-        move += convert_bit_to_location(move_to)
+        move += convert_bit_to_square(move_to)
         return move
     # return number that light just the pieces that changed.
     def your_turn(self, uci):

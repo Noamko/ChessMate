@@ -1,7 +1,7 @@
 import chess
 
 
-from board_parser.parsing_utils import convert_bit_to_location, position_to_int, fen_to_int_board, int64_to_binary_board, print_chess_board
+from board_parser.parsing_utils import convert_bit_to_square, position_to_int
 
 def get_possible_moves(fen, square):
     board = chess.Board(fen)
@@ -17,7 +17,7 @@ def get_possible_moves(fen, square):
 
 def get_square(curr_board, prev_board):
     xor_board = curr_board ^ prev_board
-    position = convert_bit_to_location(xor_board)
+    position = convert_bit_to_square(xor_board)
     res =  chess.parse_square(position)
     return res
 # Get the fen of prev board
@@ -28,12 +28,4 @@ def get_hints(fen, curr_board, prev_board):
     for move in possible_moves:
         res |= position_to_int(move[2:])
     return res
-if __name__ == "__main__":
-    # fen of the prev board
-    fen = "rnbqkbnr/pppppppp/8/8/8/3N4/PPPPPPPP/R1BQKBNR w KQkq - 0 1"
-    prev_board = fen_to_int_board(fen)
-    curr_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R1BQKBNR w KQkq - 0 1"
-    curr_board = fen_to_int_board(curr_fen)
-    hints = get_hints(fen, curr_board, prev_board)
-    board = int64_to_binary_board(hints)
-    print_chess_board(board)
+
