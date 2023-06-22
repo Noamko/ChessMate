@@ -1,5 +1,5 @@
 # Get int with just one bit turn on and return the location
-def convert_bit_to_location(board):
+def convert_bit_to_square(board):
     for i in range(64):
         if board & (1 << i):
             file = i % 8
