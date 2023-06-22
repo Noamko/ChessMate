@@ -1,6 +1,4 @@
 #include "led.h"
-#include "FastLED.h"
-#include "defs.h"
 
 LedControl::LedControl() {
   FastLED.addLeds<WS2812B, STRIP_PIN, GRB>(this->leds, NUM_LEDS);
@@ -9,13 +7,12 @@ LedControl::LedControl() {
   }
 }
 
-void LedControl::set(SquareName square, color_t color, int brightness) {
-  SquareName arr[1] = {square};
+void LedControl::set(square_t square, color_t color, int brightness) {
+  square_t arr[1] = {square};
   this->set(arr, 1, color, brightness);
 }
 
-
-void LedControl::set(SquareName square[], int num_of_squares, color_t color,
+void LedControl::set(square_t square[], int num_of_squares, color_t color,
                      int brightness) {
   // Turn off all leds
   this->reset();

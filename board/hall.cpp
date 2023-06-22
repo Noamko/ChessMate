@@ -1,5 +1,5 @@
 #include "hall.h"
-#include <Arduino.h>
+
 
 uint64_t scan_hall_array() {
 #ifdef __AVR_ATmega2560__
@@ -17,7 +17,7 @@ uint64_t scan_hall_array() {
 #endif
 }
 
-void hall_array_to_hex_string(uint64_t state, char buffer[]) {
+static void hall_array_to_hex_string(uint64_t state, char buffer[]) {
   buffer[0] = '0';
   buffer[1] = 'x';
   for (int i = 0; i < 16; i++) {

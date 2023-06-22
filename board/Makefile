@@ -1,13 +1,14 @@
 # Configuration
-BOARD_TYPE := arduino:avr:mega
+BOARD := uno
 SRC := board.ino
+AVR := arduino:avr
 BUILD_DIR := build
 SERIAL_PORT := /dev/$(shell ls /dev | grep -E -i 'usb' | head -n 1)
-
+BOARD_TYPE := $(AVR):$(BOARD)
 # Targets
 .PHONY: build upload clean all
-
-build:
+all: $(BOARD) upload
+$(BOARD):
 	@echo "Building..."
 	mkdir -p $(BUILD_DIR)
 	arduino-cli compile --fqbn $(BOARD_TYPE) $(SRC) -v --build-path $(BUILD_DIR)
@@ -19,5 +20,3 @@ upload:
 clean:
 	@echo "Cleaning..."
 	rm -rf $(BUILD_DIR)
-
-all: build upload

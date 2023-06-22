@@ -1,4 +1,5 @@
 import threading
+import datetime
 import time
 import sys
 import os
@@ -12,7 +13,6 @@ from GameManager import GameManager
 from GameManager import Agent
 import Board
 from Board import Commands
-
 
 class CMEngine(message_pb2_grpc.CommandServicer):
     def __init__(self):
@@ -68,16 +68,21 @@ class CMEngine(message_pb2_grpc.CommandServicer):
                 # get the board state
                 data_len_bytes = self.board_com.read(4)
                 data_len = int.from_bytes(data_len_bytes, byteorder='little')
-
-                data_bytes = self.board_com.read(8 * data_len)
+                data_bytes = self.board_com.read(data_len)
                 state = int.from_bytes(data_bytes, byteorder='little')
 
                 for observer in self.state_observers:
                     observer.notify(state)
-                print("Board state changed")
-                print(hex(state))
+                print(f"Board state changed to {state}")
             elif id == Commands.PING_RESPONSE:
                 print("Ping response")
+            elif id == Commands.LOG_MESSAGE:
+                # get the message
+                data_len_bytes = self.board_com.read(4)
+                data_len = int.from_bytes(data_len_bytes, byteorder='little')
+                data_bytes = self.board_com.read(data_len)
+                message = data_bytes.decode("utf-8")
+                print(f"{datetime.datetime.now()} board: {message}")
 
     def start(self):
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

@@ -12,6 +12,7 @@ class Commands:
     SET_LEDS_STATE_RESPONSE = 0xA5
     GET_LAST_MODIFED_SQUARE_REQUEST = 0xA6
     GET_LAST_MODIFED_SQUARE_RESPONSE = 0xA7
+    LOG_MESSAGE = 0xA8
 
 class BoardRequest:
     @staticmethod
@@ -33,6 +34,8 @@ class SerialCommunication:
             if p.pid != None:
                 port = p.device
                 break
+        if port == None:
+            raise "Failed to find serial port"
         self.serial = serial.Serial(port, 115200)
         time.sleep(3) # wait for the board to boot
     def send(self, data):

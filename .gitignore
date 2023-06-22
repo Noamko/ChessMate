@@ -4,4 +4,6 @@ Board/.cache
 Board/Compile_commands.json
 Board/build
 board/build
+board/tests
+board/libraries
 Chessm8/build
