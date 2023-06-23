@@ -19,8 +19,8 @@ class CMEngine(message_pb2_grpc.CommandServicer):
         self.game_manager = GameManager.GameManager()
     
         # init board
-        self.board_com = Board.SerialCommunication()
-        self.board_notification_observer_thread = threading.Thread(target=self.serialHandler)
+        # self.board_com = Board.SerialCommunication()
+        # self.board_notification_observer_thread = threading.Thread(target=self.serialHandler)
 
         self.board_com.send(Board.BoardRequest.create(command=Commands.PING_REQUEST, args=[]))
         observer = StateObserver.StateObserver(self.board_com)
@@ -86,7 +86,11 @@ class CMEngine(message_pb2_grpc.CommandServicer):
 
     def start(self):
         # start board notification observer thread
+<<<<<<< HEAD
         self.board_notification_observer_thread.start()
+=======
+        # self.board_notification_observer_thread.start()
+>>>>>>> origin/main
         
         # start grpc server
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
