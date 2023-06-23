@@ -5,7 +5,6 @@
 #include "led.h"
 #include <FastLED.h>
 
-
 void monitor_board_state();
 void handle_request(board_msg msg);
 int fetch_request(struct board_msg *msg);
@@ -21,17 +20,18 @@ void setup() {
   led_ctl = new LedControl();
   led_ctl->reset();
   LOG("Hello from ChessMate");
+
 }
 
 uint64_t prev_state = 1;
 
 void loop() {
-  delay(PORT_MESSURE_DELAY_MS);
+  // delay(PORT_MESSURE_DELAY_MS);
   monitor_board_state();
 }
 
 void monitor_board_state() {
-  board_state_t state = 0x8080808080808081;//scan_hall_array();
+  board_state_t state = scan_hall_array();
   if (state != prev_state) {
     prev_state = state;
     board_msg replay = {0};
@@ -83,10 +83,14 @@ void handle_request(board_msg msg) {
     break;
 
   case SET_LEDS_STATE_REQUEST:
-    // uint64_t squares_raw = msg.args[0];
-    // led_ctl->set(CELL_A1, NUM_LEDS, CRGB::Red, 200);
-    // replay = {SET_LEDS_STATE_RESPONSE, 0, NULL};
-    // Serial.write((uint8_t *)&replay, 1);
-    break;
+    // first get which leds should be lit
+    board_state_t led_state = 0;
+    memcpy(&led_state, msg.data, sizeof(board_state_t)); // big endian
+    
+    // then get the color
+    // TODO:
+    led_ctl->set(led_state, CRGB::Red, 200);
+    replay = {SET_LEDS_STATE_RESPONSE, 0, NULL};
+    Serial.write((uint8_t *)&replay, sizeof(replay));
   }
 }

@@ -8,7 +8,7 @@
 #include "commands.h"
 
 #define SERIAL_BAUDRATE 115200
-#define PORT_MESSURE_DELAY_MS 100
+#define PORT_MESSURE_DELAY_MS 10
 #define STRIP_PIN 8
 #define NUM_LEDS 64
 #define MESSAGE_HEADER_SIZE 5
@@ -27,7 +27,7 @@ struct board_msg {
 // Commands
 #define SET_LEDS 0
 
-typedef char square_t;
+typedef uint8_t square_t;
 #define CELL_A1 0
 #define CELL_B1 1
 #define CELL_C1 2

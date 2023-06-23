@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.chessmate.command";
+option java_outer_classname = "CommandProto";
+
+package command;
+
+service Command {
+   rpc Execute (CommandRequest) returns (CommandResponse);
+}
+
+message CommandRequest {
+    oneof command {
+        ChallengeAIRequest challengeAI = 2;
+        ChallengeLichessRequest challengeLichess = 3;
+        GetClockRequest getClock = 4;
+        EndTurnRequest endTurn = 5;
+        GetBoardStateRequest getBoardState = 6;
+        GetEvaluationRequest getEvaluation = 7;
+    }
+}
+
+message CommandResponse {
+    oneof command {
+        ChallengeAIResponse challengeAI = 1;
+        ChallengeLichessResponse challengeLichess = 2;
+        GetClockResponse getClock = 3;
+        EndTurnResponse endTurn = 4;
+        GetBoardStateResponse getBoardState = 5;
+        GetEvaluationResponse getEvaluation = 6;
+        CommandError error = 7;
+    }
+}
+enum color {
+        WHITE = 0;
+        BLACK = 1;
+        RANDOM = 2;
+}
+
+message timer {
+    int32 blackTime = 1;
+    int32 whiteTime = 2;
+}
+
+message ChallengeAIRequest {
+    int32 level = 1;
+    color color = 2;
+    timer timer = 3;
+}
+
+message ChallengeLichessRequest {
+    string gameid = 1;
+    string lichessid = 2;
+}
+
+message GetClockRequest {
+    string gameid = 1;
+}
+
+message EndTurnRequest {
+    string gameid = 1;
+    string move = 2;
+}
+
+message GetBoardStateRequest {
+    string gameid = 1;
+}
+
+message GetEvaluationRequest {
+    string gameid = 1;
+}
+
+message GetClockResponse {
+    int32 white = 1;
+    int32 black = 2;
+}
+
+message GetBoardStateResponse {
+    string boardstate = 1;
+}
+
+message GetEvaluationResponse {
+    int32 evaluation = 1;
+}
+
+message EndTurnResponse {
+    string boardstate = 1;
+}
+
+message ChallengeAIResponse {
+}
+
+message ChallengeLichessResponse {
+    string gameid = 1;
+    string lichessid = 2;
+}
+
+message CommandError {
+    int32 code = 1;
+    string msg = 2;
+}

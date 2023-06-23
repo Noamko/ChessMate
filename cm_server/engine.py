@@ -3,8 +3,8 @@ import datetime
 import time
 import sys
 import os
-sys.path.append(f"{os.getcwd()}/Chessm8/build/proto")
-sys.path.append(f"{os.getcwd()}/Chessm8/Board")
+sys.path.append(f"{os.getcwd()}/cm_server/build/proto")
+sys.path.append(f"{os.getcwd()}/cm_server/Board")
 from concurrent import futures
 import grpc
 from message_pb2 import CommandRequest, CommandResponse, CommandError
@@ -12,19 +12,19 @@ import message_pb2_grpc
 from GameManager import GameManager
 from GameManager import Agent
 import Board
-from Board import Commands
+import StateObserver
 
 class CMEngine(message_pb2_grpc.CommandServicer):
     def __init__(self):
         self.game_manager = GameManager.GameManager()
     
         # init board
-        self.board_com = Board.SerialCommunication()
-        self.board_notification_observer_thread = threading.Thread(target=self.serialHandler)
+        # self.board_com = Board.SerialCommunication()
+        # self.board_notification_observer_thread = threading.Thread(target=self.serialHandler)
 
         # self.board_com.send(Board.BoardRequest.create(command=Commands.PING_REQUEST, args=[]))
-        self.board_notification_observer_thread.start()
-        self.state_observers = []
+        # observer = StateObserver.StateObserver(self.board_com)
+        # self.state_observers = [observer]
 
     def Execute(self, request, context):
         response = CommandResponse()
@@ -64,7 +64,7 @@ class CMEngine(message_pb2_grpc.CommandServicer):
     def serialHandler(self):
         while True:
             id = int.from_bytes(self.board_com.read(1))
-            if id == Commands.BOARD_STATE_CHANGED:
+            if id == Board.Commands.BOARD_STATE_CHANGED:
                 # get the board state
                 data_len_bytes = self.board_com.read(4)
                 data_len = int.from_bytes(data_len_bytes, byteorder='little')
@@ -73,10 +73,10 @@ class CMEngine(message_pb2_grpc.CommandServicer):
 
                 for observer in self.state_observers:
                     observer.notify(state)
-                print(f"Board state changed to {state}")
-            elif id == Commands.PING_RESPONSE:
+                print(f"Board state changed to {format(state, '064b')}")
+            elif id == Board.Commands.PING_RESPONSE:
                 print("Ping response")
-            elif id == Commands.LOG_MESSAGE:
+            elif id == Board.Commands.LOG_MESSAGE:
                 # get the message
                 data_len_bytes = self.board_com.read(4)
                 data_len = int.from_bytes(data_len_bytes, byteorder='little')
@@ -85,6 +85,10 @@ class CMEngine(message_pb2_grpc.CommandServicer):
                 print(f"{datetime.datetime.now()} board: {message}")
 
     def start(self):
+        # start board notification observer thread
+        # self.board_notification_observer_thread.start()
+        
+        # start grpc server
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         message_pb2_grpc.add_CommandServicer_to_server(self, server)
         server.add_insecure_port('[::]:50051')
