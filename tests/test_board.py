@@ -2,7 +2,7 @@
 import unittest
 import sys
 import os
-sys.path.append(f"{os.getcwd()}/Chessm8/Board")
+sys.path.append(f"{os.getcwd()}/cm_server/Board")
 import time
 import Board
 from Board import Commands
@@ -52,12 +52,12 @@ class TestBoard(unittest.TestCase):
     def test_leds(self):
         command = Board.Commands.SET_LEDS_STATE_REQUEST
         args = [0xff, 0xff, 0x0, 0x0, 0x0, 0x0 ,0x0 ,0x0]
-        message = Board.BoardRequest.create(command=command, args=args)
+        message = Board.BoardRequest.create(command=command, data=args)
         self.board_com.send(message)
 
         print("Waiting for response")
 
-        response = int.from_bytes(self.board_com.read(1), byteorder='big')
+        response = int.from_bytes(self.board_com.read(1), byteorder='little')
         print(f"Got response: {response}")
         self.assertEqual(response, Board.Commands.SET_LEDS_STATE_RESPONSE)
 

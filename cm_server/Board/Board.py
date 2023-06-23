@@ -10,14 +10,12 @@ class Commands:
     GET_BOARD_STATE_RESPONSE = 0xA3
     SET_LEDS_STATE_REQUEST = 0xA4
     SET_LEDS_STATE_RESPONSE = 0xA5
-    GET_LAST_MODIFED_SQUARE_REQUEST = 0xA6
-    GET_LAST_MODIFED_SQUARE_RESPONSE = 0xA7
     LOG_MESSAGE = 0xA8
 
 class BoardRequest:
     @staticmethod
-    def create(command, args) -> bytes:
-        return bytes([command, len(args)]) + bytes(args) 
+    def create(command, data) -> bytes:
+        return command.to_bytes() + len(data).to_bytes(4,"little") + bytes(data)
 
 class BoardResponse:
     def __init__(self, data):
