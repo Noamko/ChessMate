@@ -56,6 +56,7 @@ void serialEvent() {
 }
 
 int fetch_request(struct board_msg* msg) {
+  // read all the header in one go
   msg_identfier_t id = 0;
   int res = Serial.readBytes((char *)&id, sizeof(msg_identfier_t));
 
@@ -71,7 +72,7 @@ int fetch_request(struct board_msg* msg) {
   }
   msg->id = id;
   msg->data_len = len;
-  LOG("Fetched request: id: %d, len: %d", id, len);
+  // LOG("Fetched request: id: %d, len: %d", id, len);
   return 0;
 }
 void handle_request(board_msg msg) {
@@ -89,8 +90,8 @@ void handle_request(board_msg msg) {
     
     // then get the color
     // TODO:
-    led_ctl->set(led_state, CRGB::Red, 200);
-    replay = {SET_LEDS_STATE_RESPONSE, 0, NULL};
-    Serial.write((uint8_t *)&replay, sizeof(replay));
+    led_ctl->set(led_state, CRGB::Purple, 200);
+    // replay = {SET_LEDS_STATE_RESPONSE, 0, NULL};
+    // Serial.write((uint8_t *)&replay, sizeof(replay));
   }
 }

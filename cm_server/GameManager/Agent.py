@@ -47,6 +47,11 @@ class SerialAgent(ChessAgent):
     def __init__(self, serial_port, callbacks = []):
         super.__init__(callbacks)
         self.port = serial_port
+        self.move_thread = None
+    
+    def notify(self, state):
+        self.move_thread.start()
+
     def do_move(self, board):
         move = get_move_callback()
         board.push_uci(move)

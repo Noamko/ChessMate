@@ -14,7 +14,6 @@ import time
 import os
 from engine import CMEngine
 
-
 def main():
     # start chessm8 engine
     print("Starting ChesssMate ")
