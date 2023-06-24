@@ -46,7 +46,8 @@ message timer {
 message ChallengeAIRequest {
     int32 level = 1;
     color color = 2;
-    timer timer = 3;
+    optional int32 white_timer = 3;
+    optional int32 black_timer = 4;
 }
 
 message ChallengeLichessRequest {
@@ -54,22 +55,15 @@ message ChallengeLichessRequest {
     string lichessid = 2;
 }
 
-message GetClockRequest {
-    string gameid = 1;
-}
+message GetClockRequest {}
 
 message EndTurnRequest {
-    string gameid = 1;
     string move = 2;
 }
 
-message GetBoardStateRequest {
-    string gameid = 1;
-}
+message GetBoardStateRequest {}
 
-message GetEvaluationRequest {
-    string gameid = 1;
-}
+message GetEvaluationRequest {}
 
 message GetClockResponse {
     int32 white = 1;
@@ -77,16 +71,14 @@ message GetClockResponse {
 }
 
 message GetBoardStateResponse {
-    string boardstate = 1;
+    uint64 state = 1;
 }
 
 message GetEvaluationResponse {
     int32 evaluation = 1;
 }
 
-message EndTurnResponse {
-    string boardstate = 1;
-}
+message EndTurnResponse {}
 
 message ChallengeAIResponse {
 }

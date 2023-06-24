@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rmessage.proto\x12\x07\x63ommand\"\xd7\x02\n\x0e\x43ommandRequest\x12\x32\n\x0b\x63hallengeAI\x18\x02 \x01(\x0b\x32\x1b.command.ChallengeAIRequestH\x00\x12<\n\x10\x63hallengeLichess\x18\x03 \x01(\x0b\x32 .command.ChallengeLichessRequestH\x00\x12,\n\x08getClock\x18\x04 \x01(\x0b\x32\x18.command.GetClockRequestH\x00\x12*\n\x07\x65ndTurn\x18\x05 \x01(\x0b\x32\x17.command.EndTurnRequestH\x00\x12\x36\n\rgetBoardState\x18\x06 \x01(\x0b\x32\x1d.command.GetBoardStateRequestH\x00\x12\x36\n\rgetEvaluation\x18\x07 \x01(\x0b\x32\x1d.command.GetEvaluationRequestH\x00\x42\t\n\x07\x63ommand\"\x86\x03\n\x0f\x43ommandResponse\x12\x33\n\x0b\x63hallengeAI\x18\x01 \x01(\x0b\x32\x1c.command.ChallengeAIResponseH\x00\x12=\n\x10\x63hallengeLichess\x18\x02 \x01(\x0b\x32!.command.ChallengeLichessResponseH\x00\x12-\n\x08getClock\x18\x03 \x01(\x0b\x32\x19.command.GetClockResponseH\x00\x12+\n\x07\x65ndTurn\x18\x04 \x01(\x0b\x32\x18.command.EndTurnResponseH\x00\x12\x37\n\rgetBoardState\x18\x05 \x01(\x0b\x32\x1e.command.GetBoardStateResponseH\x00\x12\x37\n\rgetEvaluation\x18\x06 \x01(\x0b\x32\x1e.command.GetEvaluationResponseH\x00\x12&\n\x05\x65rror\x18\x07 \x01(\x0b\x32\x15.command.CommandErrorH\x00\x42\t\n\x07\x63ommand\"-\n\x05timer\x12\x11\n\tblackTime\x18\x01 \x01(\x05\x12\x11\n\twhiteTime\x18\x02 \x01(\x05\"a\n\x12\x43hallengeAIRequest\x12\r\n\x05level\x18\x01 \x01(\x05\x12\x1d\n\x05\x63olor\x18\x02 \x01(\x0e\x32\x0e.command.color\x12\x1d\n\x05timer\x18\x03 \x01(\x0b\x32\x0e.command.timer\"<\n\x17\x43hallengeLichessRequest\x12\x0e\n\x06gameid\x18\x01 \x01(\t\x12\x11\n\tlichessid\x18\x02 \x01(\t\"!\n\x0fGetClockRequest\x12\x0e\n\x06gameid\x18\x01 \x01(\t\".\n\x0e\x45ndTurnRequest\x12\x0e\n\x06gameid\x18\x01 \x01(\t\x12\x0c\n\x04move\x18\x02 \x01(\t\"&\n\x14GetBoardStateRequest\x12\x0e\n\x06gameid\x18\x01 \x01(\t\"&\n\x14GetEvaluationRequest\x12\x0e\n\x06gameid\x18\x01 \x01(\t\"0\n\x10GetClockResponse\x12\r\n\x05white\x18\x01 \x01(\x05\x12\r\n\x05\x62lack\x18\x02 \x01(\x05\"+\n\x15GetBoardStateResponse\x12\x12\n\nboardstate\x18\x01 \x01(\t\"+\n\x15GetEvaluationResponse\x12\x12\n\nevaluation\x18\x01 \x01(\x05\"%\n\x0f\x45ndTurnResponse\x12\x12\n\nboardstate\x18\x01 \x01(\t\"\x15\n\x13\x43hallengeAIResponse\"=\n\x18\x43hallengeLichessResponse\x12\x0e\n\x06gameid\x18\x01 \x01(\t\x12\x11\n\tlichessid\x18\x02 \x01(\t\")\n\x0c\x43ommandError\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0b\n\x03msg\x18\x02 \x01(\t*)\n\x05\x63olor\x12\t\n\x05WHITE\x10\x00\x12\t\n\x05\x42LACK\x10\x01\x12\n\n\x06RANDOM\x10\x02\x32G\n\x07\x43ommand\x12<\n\x07\x45xecute\x12\x17.command.CommandRequest\x1a\x18.command.CommandResponseB\'\n\x15\x63om.chessmate.commandB\x0c\x43ommandProtoP\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rmessage.proto\x12\x07\x63ommand\"\xd7\x02\n\x0e\x43ommandRequest\x12\x32\n\x0b\x63hallengeAI\x18\x02 \x01(\x0b\x32\x1b.command.ChallengeAIRequestH\x00\x12<\n\x10\x63hallengeLichess\x18\x03 \x01(\x0b\x32 .command.ChallengeLichessRequestH\x00\x12,\n\x08getClock\x18\x04 \x01(\x0b\x32\x18.command.GetClockRequestH\x00\x12*\n\x07\x65ndTurn\x18\x05 \x01(\x0b\x32\x17.command.EndTurnRequestH\x00\x12\x36\n\rgetBoardState\x18\x06 \x01(\x0b\x32\x1d.command.GetBoardStateRequestH\x00\x12\x36\n\rgetEvaluation\x18\x07 \x01(\x0b\x32\x1d.command.GetEvaluationRequestH\x00\x42\t\n\x07\x63ommand\"\x86\x03\n\x0f\x43ommandResponse\x12\x33\n\x0b\x63hallengeAI\x18\x01 \x01(\x0b\x32\x1c.command.ChallengeAIResponseH\x00\x12=\n\x10\x63hallengeLichess\x18\x02 \x01(\x0b\x32!.command.ChallengeLichessResponseH\x00\x12-\n\x08getClock\x18\x03 \x01(\x0b\x32\x19.command.GetClockResponseH\x00\x12+\n\x07\x65ndTurn\x18\x04 \x01(\x0b\x32\x18.command.EndTurnResponseH\x00\x12\x37\n\rgetBoardState\x18\x05 \x01(\x0b\x32\x1e.command.GetBoardStateResponseH\x00\x12\x37\n\rgetEvaluation\x18\x06 \x01(\x0b\x32\x1e.command.GetEvaluationResponseH\x00\x12&\n\x05\x65rror\x18\x07 \x01(\x0b\x32\x15.command.CommandErrorH\x00\x42\t\n\x07\x63ommand\"-\n\x05timer\x12\x11\n\tblackTime\x18\x01 \x01(\x05\x12\x11\n\twhiteTime\x18\x02 \x01(\x05\"\x96\x01\n\x12\x43hallengeAIRequest\x12\r\n\x05level\x18\x01 \x01(\x05\x12\x1d\n\x05\x63olor\x18\x02 \x01(\x0e\x32\x0e.command.color\x12\x18\n\x0bwhite_timer\x18\x03 \x01(\x05H\x00\x88\x01\x01\x12\x18\n\x0b\x62lack_timer\x18\x04 \x01(\x05H\x01\x88\x01\x01\x42\x0e\n\x0c_white_timerB\x0e\n\x0c_black_timer\"<\n\x17\x43hallengeLichessRequest\x12\x0e\n\x06gameid\x18\x01 \x01(\t\x12\x11\n\tlichessid\x18\x02 \x01(\t\"\x11\n\x0fGetClockRequest\"\x1e\n\x0e\x45ndTurnRequest\x12\x0c\n\x04move\x18\x02 \x01(\t\"\x16\n\x14GetBoardStateRequest\"\x16\n\x14GetEvaluationRequest\"0\n\x10GetClockResponse\x12\r\n\x05white\x18\x01 \x01(\x05\x12\r\n\x05\x62lack\x18\x02 \x01(\x05\"&\n\x15GetBoardStateResponse\x12\r\n\x05state\x18\x01 \x01(\x04\"+\n\x15GetEvaluationResponse\x12\x12\n\nevaluation\x18\x01 \x01(\x05\"\x11\n\x0f\x45ndTurnResponse\"\x15\n\x13\x43hallengeAIResponse\"=\n\x18\x43hallengeLichessResponse\x12\x0e\n\x06gameid\x18\x01 \x01(\t\x12\x11\n\tlichessid\x18\x02 \x01(\t\")\n\x0c\x43ommandError\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0b\n\x03msg\x18\x02 \x01(\t*)\n\x05\x63olor\x12\t\n\x05WHITE\x10\x00\x12\t\n\x05\x42LACK\x10\x01\x12\n\n\x06RANDOM\x10\x02\x32G\n\x07\x43ommand\x12<\n\x07\x45xecute\x12\x17.command.CommandRequest\x1a\x18.command.CommandResponseB\'\n\x15\x63om.chessmate.commandB\x0c\x43ommandProtoP\x01\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'message_pb2', globals())
@@ -21,40 +21,40 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n\025com.chessmate.commandB\014CommandProtoP\001'
-  _COLOR._serialized_start=1444
-  _COLOR._serialized_end=1485
+  _COLOR._serialized_start=1409
+  _COLOR._serialized_end=1450
   _COMMANDREQUEST._serialized_start=27
   _COMMANDREQUEST._serialized_end=370
   _COMMANDRESPONSE._serialized_start=373
   _COMMANDRESPONSE._serialized_end=763
   _TIMER._serialized_start=765
   _TIMER._serialized_end=810
-  _CHALLENGEAIREQUEST._serialized_start=812
-  _CHALLENGEAIREQUEST._serialized_end=909
-  _CHALLENGELICHESSREQUEST._serialized_start=911
-  _CHALLENGELICHESSREQUEST._serialized_end=971
-  _GETCLOCKREQUEST._serialized_start=973
-  _GETCLOCKREQUEST._serialized_end=1006
-  _ENDTURNREQUEST._serialized_start=1008
-  _ENDTURNREQUEST._serialized_end=1054
-  _GETBOARDSTATEREQUEST._serialized_start=1056
-  _GETBOARDSTATEREQUEST._serialized_end=1094
-  _GETEVALUATIONREQUEST._serialized_start=1096
-  _GETEVALUATIONREQUEST._serialized_end=1134
-  _GETCLOCKRESPONSE._serialized_start=1136
-  _GETCLOCKRESPONSE._serialized_end=1184
-  _GETBOARDSTATERESPONSE._serialized_start=1186
-  _GETBOARDSTATERESPONSE._serialized_end=1229
-  _GETEVALUATIONRESPONSE._serialized_start=1231
-  _GETEVALUATIONRESPONSE._serialized_end=1274
-  _ENDTURNRESPONSE._serialized_start=1276
-  _ENDTURNRESPONSE._serialized_end=1313
-  _CHALLENGEAIRESPONSE._serialized_start=1315
-  _CHALLENGEAIRESPONSE._serialized_end=1336
-  _CHALLENGELICHESSRESPONSE._serialized_start=1338
-  _CHALLENGELICHESSRESPONSE._serialized_end=1399
-  _COMMANDERROR._serialized_start=1401
-  _COMMANDERROR._serialized_end=1442
-  _COMMAND._serialized_start=1487
-  _COMMAND._serialized_end=1558
+  _CHALLENGEAIREQUEST._serialized_start=813
+  _CHALLENGEAIREQUEST._serialized_end=963
+  _CHALLENGELICHESSREQUEST._serialized_start=965
+  _CHALLENGELICHESSREQUEST._serialized_end=1025
+  _GETCLOCKREQUEST._serialized_start=1027
+  _GETCLOCKREQUEST._serialized_end=1044
+  _ENDTURNREQUEST._serialized_start=1046
+  _ENDTURNREQUEST._serialized_end=1076
+  _GETBOARDSTATEREQUEST._serialized_start=1078
+  _GETBOARDSTATEREQUEST._serialized_end=1100
+  _GETEVALUATIONREQUEST._serialized_start=1102
+  _GETEVALUATIONREQUEST._serialized_end=1124
+  _GETCLOCKRESPONSE._serialized_start=1126
+  _GETCLOCKRESPONSE._serialized_end=1174
+  _GETBOARDSTATERESPONSE._serialized_start=1176
+  _GETBOARDSTATERESPONSE._serialized_end=1214
+  _GETEVALUATIONRESPONSE._serialized_start=1216
+  _GETEVALUATIONRESPONSE._serialized_end=1259
+  _ENDTURNRESPONSE._serialized_start=1261
+  _ENDTURNRESPONSE._serialized_end=1278
+  _CHALLENGEAIRESPONSE._serialized_start=1280
+  _CHALLENGEAIRESPONSE._serialized_end=1301
+  _CHALLENGELICHESSRESPONSE._serialized_start=1303
+  _CHALLENGELICHESSRESPONSE._serialized_end=1364
+  _COMMANDERROR._serialized_start=1366
+  _COMMANDERROR._serialized_end=1407
+  _COMMAND._serialized_start=1452
+  _COMMAND._serialized_end=1523
 # @@protoc_insertion_point(module_scope)

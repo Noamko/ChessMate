@@ -50,9 +50,12 @@ class SerialAgent(ChessAgent):
         self.move_thread = None
     
     def notify(self, state):
-        self.move_thread.start()
+        pass
+        
 
     def do_move(self, board):
+        # wait for move
+        
         move = get_move_callback()
         board.push_uci(move)
         for callback in self.callbacks:

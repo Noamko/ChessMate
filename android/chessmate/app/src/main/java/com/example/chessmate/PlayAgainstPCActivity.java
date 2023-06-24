@@ -63,7 +63,9 @@ public class PlayAgainstPCActivity extends AppCompatActivity {
 
         Button play_button = findViewById(R.id.play);
         play_button.setOnClickListener(v -> {
-            Intent intent = new Intent(PlayAgainstPCActivity.this, GameActivity.class);
+            Intent intent = new Intent(PlayAgainstPCActivity.this, WaitForBoard.class);
+            intent.putExtra("color", sharedPreferences.getInt("color", R.id.rb_color_white));
+            intent.putExtra("level", sharedPreferences.getInt("level", R.id.rb_pc_medium));
             startActivity(intent);
         });
     }

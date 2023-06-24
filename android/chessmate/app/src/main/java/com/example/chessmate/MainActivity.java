@@ -35,7 +35,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String ip = "10.0.0.178";
+        int port = 50051;
+        try {
+            RPCService.getInstance().start(ip, port);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, ErrorActivity.class);
+            intent.putExtra("message", String.format("Cant connect to: %s: %d", ip, port));
+            startActivity(intent);
+
+        }
         Button playAgainstPCButton = findViewById(R.id.Play_against_pc);
+
 
         playAgainstPCButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, PlayAgainstPCActivity.class);
