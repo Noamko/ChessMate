@@ -8,7 +8,12 @@ import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.chessmate.command.ChallengeAIRequest;
+import com.chessmate.command.CommandRequest;
+import com.chessmate.command.CommandResponse;
+import com.chessmate.command.color;
 import com.example.chessmate.R;
+import com.google.type.Color;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -66,6 +71,14 @@ public class PlayAgainstPCActivity extends AppCompatActivity {
             Intent intent = new Intent(PlayAgainstPCActivity.this, WaitForBoard.class);
             intent.putExtra("color", sharedPreferences.getInt("color", R.id.rb_color_white));
             intent.putExtra("level", sharedPreferences.getInt("level", R.id.rb_pc_medium));
+            RPCService rpc = RPCService.getInstance();
+            ChallengeAIRequest challengeAIRequest = ChallengeAIRequest.newBuilder()
+                    .setColor(color.WHITE)
+                    .setLevel(10)
+                            .setBlackTimer(0)
+                                    .setWhiteTimer(0)
+                                            .build();
+            rpc.execute(CommandRequest.newBuilder().setChallengeAI(challengeAIRequest).build());
             startActivity(intent);
         });
     }

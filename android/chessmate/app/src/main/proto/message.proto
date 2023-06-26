@@ -46,8 +46,8 @@ message timer {
 message ChallengeAIRequest {
     int32 level = 1;
     color color = 2;
-    optional int32 white_timer = 3;
-    optional int32 black_timer = 4;
+    int32 white_timer = 3;
+    int32 black_timer = 4;
 }
 
 message ChallengeLichessRequest {

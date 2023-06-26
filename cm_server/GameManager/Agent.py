@@ -1,11 +1,17 @@
 
 import stockfish
 import chess
+import threading
+
+import os
+import sys
+sys.path.append(f"{os.getcwd()}/cm_server/board_parser")
+from board_parser import MoveCalculator
 
 class ChessAgent:
-    def __init__(self, callbacks = []):
-        self.callbacks = callbacks
-    def do_move(self, board, callbacks):
+    def notify(self, move):
+        pass
+    def do_move(self, board):
         pass
 
 class TerminalAgent(ChessAgent):
@@ -24,8 +30,7 @@ class TerminalAgent(ChessAgent):
                 continue
 
 class StockfishAgent(ChessAgent):
-    def __init__(self, depth, level, callbacks = []):
-        super.__init__(callbacks)
+    def __init__(self, depth, level):
         self.engine = stockfish.Stockfish()
         self.engine.set_depth(depth)
         self.engine.set_skill_level(level)
@@ -40,27 +45,22 @@ class StockfishAgent(ChessAgent):
         # Make the move on the board
         if move is not None:
             board.push_uci(move)
-            for callback in self.callbacks:
-                callback(move)
+           
 
 class SerialAgent(ChessAgent):
-    def __init__(self, serial_port, callbacks = []):
-        super.__init__(callbacks)
-        self.port = serial_port
-        self.move_thread = None
-    
-    def notify(self, state):
-        pass
-        
+    def __init__(self, move_queue):
+        self.lock = threading.Lock()
+        self.last_move = None
+        self.move_queue = move_queue
+        self.move_calculator = MoveCalculator()
 
     def do_move(self, board):
         # wait for move
-        
-        move = get_move_callback()
+        move = self.move_queue.get()
+        current = move[1]
+        last = move[0]
+        move = self.move_calculator.my_turn(current,last)
         board.push_uci(move)
-        for callback in self.callbacks:
-            callback(move)
-
         
         
       
