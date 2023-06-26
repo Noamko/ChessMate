@@ -1,5 +1,5 @@
 # Configuration
-BOARD := uno
+BOARD := mega
 SRC := board.ino
 AVR := arduino:avr
 BUILD_DIR := build

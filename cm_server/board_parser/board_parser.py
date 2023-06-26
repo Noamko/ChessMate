@@ -1,4 +1,6 @@
 from parsing_utils import convert_bit_to_square, position_to_int
+from translator import col_to_row, uci_to_board
+
 # h1 is 1 and a8 is 9223372036854775808
 CASTLING_DOWN_RIGHT = 15
 CASTLING_DOWN_LEFT = 232
@@ -38,12 +40,14 @@ def count_set_bits(num):
 
 class MoveCalculator:
     # Start board number 18446462598732906495
-    def __init__(self, start_board=18446462598732906495, num_of_pieces=32):
+    def __init__(self, start_board=col_to_row(2097280), num_of_pieces=32):
         self.board = start_board
         self.num_of_pieces = num_of_pieces
 
     # TODO - take care of upgrade situation.
-    def my_turn(self,current_board ,last_move, turn):
+    def my_turn(self,current_board ,last_move):
+        current_board = col_to_row(current_board)
+        last_move = col_to_row(last_move)
         # Check the number of changes on board.
         num_of_changes = count_changed_bits(current_board, self.board)
 
@@ -62,7 +66,7 @@ class MoveCalculator:
         elif num_of_changes == 4:
             return self.castling(current_board)
 
-        raise Exception("Invalid move")
+        print("Invalid move")
 
     def set_board(self, board):
         self.board = board

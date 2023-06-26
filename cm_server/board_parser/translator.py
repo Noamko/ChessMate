@@ -29,5 +29,3 @@ def uci_to_board(uci):
     pos2 = 1
     pos2 <<= (ord('h') - ord(uci[2])) * 8 +(8 - int(uci[3]))
     return pos1 + pos2
-if __name__ == '__main__':
-    print(uci_to_board('h8h1'))

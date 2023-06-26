@@ -20,3 +20,4 @@ static int active_squares(uint64_t state, square_t arr[]) {
   }
   return index;
 }
+
