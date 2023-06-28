@@ -42,3 +42,30 @@ def position_to_int(pos):
     num = 1
     num <<= 8 * (int(pos[1]) - 1) + ord('h') - ord(pos[0])
     return num
+
+def row_major_to_position(board):
+    index = 0
+    for i in range(8):
+        if board >> (i + 1) * 8 == 0:
+            index = i
+            break
+    file = 0
+    for i in range(8):
+        if board >> (i + 1) + (index * 8) == 0:
+            file = i
+            break
+    return chr(ord('h') - file) + str(index + 1) 
+
+def row_to_col(board):
+    new_board = 0
+    for i in range(64):
+        if (1 << i) & board == 1 << i:
+            pos = row_major_to_position((1 << i) & board)
+            new_board += position_to_int_col_major(pos)
+    return new_board
+
+def position_to_int_col_major(pos):
+    num = 1
+    num <<= ((ord('h') - ord(pos[0])) * 8) + 8 - int(pos[1]) 
+    return num
+

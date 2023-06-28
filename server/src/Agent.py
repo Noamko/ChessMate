@@ -8,6 +8,7 @@ import sys
 from board_parser import MoveCalculator
 from StateObserver import  StateObserver
 from queue import Queue
+from translator import col_to_row
 
 class ChessAgent:
     def __init__(self):
@@ -60,26 +61,30 @@ class EndTurnObserver:
 class SerialAgent(ChessAgent, StateObserver, EndTurnObserver):
     def __init__(self):
         self.lock = threading.Lock()
-        self.last_state = None
-        self.current_state = None
+        self.last_state = 0
+        self.current_state = 0
         self.move_queue = Queue()
         self.move_calculator = MoveCalculator()
         self.last_move = None
-        self.is_my_turn = False
     
     def notify_state_changed(self, state):
         self.last_state = self.current_state
         self.current_state = state
+        print("xor state: {}".format(self.current_state ^ self.last_state))
         # if self.is_my_turn:
         #     # get hints
         #     # fen
 
-    def notify_end_turn(self):
+    def notify_end_turn(self, new_state):
+        self.move_calculator.set_board(col_to_row(new_state))
         self.last_move = self.move_calculator.my_turn(self.current_state ,self.last_state)
-        self.move_queue.put(self.last_move)
-        print("SerialAgent: {}".format(self.last_move))
-        self.is_my_turn = False
-
+        if self.last_move is not None:
+            self.move_queue.put(self.last_move)
+            print("SerialAgent: {}".format(self.last_move))
+            return True
+        else:
+            print("SerialAgent: Illegal move")
+            return False
 
     def do_move(self, board):
         # wait for move

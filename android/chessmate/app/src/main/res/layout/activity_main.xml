@@ -5,42 +5,48 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/app_name"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:textSize="36sp"
             android:textStyle="bold"
-            android:textColor="#2D2D2D"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:textColor="#2D2D2D"/>
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/noun_chess_2371316" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_your_opponent"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="20dp"/>
         <Button
             android:id="@+id/Play_against_pc"
-            android:layout_width="match_parent"
+            android:layout_width="180dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:text="@string/playVsPC"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_margin="2dp"/>
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="180dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:text="@string/playOnline"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/solvePuzzles"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_margin="2dp"/>
 
     </LinearLayout>
 

@@ -1,8 +1,8 @@
 <resources>
     <!-- Main Menu -->
     <string name="app_name">ChessMate</string>
-    <string name="playVsPC">Play against PC</string>
-    <string name="playOnline">Play online</string>
+    <string name="playVsPC">Computer</string>
+    <string name="playOnline">Human</string>
     <string name="solvePuzzles">Solve puzzles</string>
 
     <!-- Start a game-->
@@ -64,6 +64,7 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="choose_your_opponent">Choose your opponent</string>
 
 
 </resources>

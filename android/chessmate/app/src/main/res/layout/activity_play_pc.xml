@@ -6,57 +6,33 @@
     android:layout_height="match_parent"
     android:padding="16dp">
     <!-- Play against PC title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/noun_chess_1718374"
+            android:layout_gravity="center"/>
+
     <TextView
         android:id="@+id/tv_play_pc_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select_opponent_level"
         android:textColor="@android:color/black"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/group_pc_level"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_marginTop="16dp"/>
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
     <!-- PC Level radio group -->
-    <RadioGroup
-        android:id="@+id/group_pc_level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tv_play_pc_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
 
-        <!-- Easy level radio button -->
-        <RadioButton
-            android:layout_marginStart="6dp"
-            android:id="@+id/rb_pc_easy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/easy_level"
-            />
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/elo_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <!-- Medium level radio button -->
-        <RadioButton
-            android:layout_marginStart="6dp"
-            android:id="@+id/rb_pc_medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/medium_level"
-            android:checked="true"/>
-
-        <!-- Hard level radio button -->
-        <RadioButton
-            android:layout_marginStart="6dp"
-            android:id="@+id/rb_pc_hard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/high_level"/>
-    </RadioGroup>
 
     <!-- Choose Your Color title -->
     <TextView
@@ -65,12 +41,9 @@
         android:layout_height="wrap_content"
         android:text="@string/select_color"
         android:textColor="@android:color/black"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/group_pc_level"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <!-- Choose Your Color radio group -->
     <RadioGroup
@@ -78,21 +51,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tv_choose_color_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp">
+        android:layout_gravity="center">
 
         <!-- White color radio button -->
         <RadioButton
-            android:layout_marginStart="16dp"
             android:id="@+id/rb_color_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/White_color"
             android:checked="true"/>
         <RadioButton
-            android:layout_marginStart="16dp"
             android:id="@+id/rb_color_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,25 +68,14 @@
             />
     </RadioGroup>
     <!-- Return to main menu button -->
-    <Button
-        android:id="@+id/btn_back_to_menu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/main_menu"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/play"
-        app:layout_constraintWidth_percent="0.5"/>
 
     <Button
         android:id="@+id/play"
-        android:layout_width="0dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="@string/start_to_play"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_back_to_menu"
-        app:layout_constraintWidth_percent="0.5"/>
+        android:layout_gravity="center"
+        android:text="@string/start_to_play"  />
+</LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

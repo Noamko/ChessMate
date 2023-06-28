@@ -27,7 +27,7 @@ public class PlayAgainstPCActivity extends AppCompatActivity {
 
         // Get references to the views
         RadioGroup colorRadioGroup = findViewById(R.id.group_choose_color);
-        RadioGroup levelRadioGroup = findViewById(R.id.group_pc_level);
+//        RadioGroup levelRadioGroup = findViewById(R.id.group_pc_level);
 
         // Get the SharedPreferences object
         SharedPreferences sharedPreferences = getSharedPreferences("com.example.chessmate", MODE_PRIVATE);
@@ -40,13 +40,13 @@ public class PlayAgainstPCActivity extends AppCompatActivity {
         }
         if (!sharedPreferences.contains("level")) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("level", R.id.rb_pc_easy);
+//            editor.putInt("level", R.id.rb_pc_easy);
             editor.apply();
         }
 
         // Set the selected values in the radio groups
         colorRadioGroup.check(sharedPreferences.getInt("color", R.id.rb_color_white));
-        levelRadioGroup.check(sharedPreferences.getInt("level", R.id.rb_pc_easy));
+//        levelRadioGroup.check(sharedPreferences.getInt("level", R.id.rb_pc_easy));
 
         // Set listeners to save the selected values when changed
         colorRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -54,22 +54,22 @@ public class PlayAgainstPCActivity extends AppCompatActivity {
             editor.putInt("color", checkedId);
             editor.apply();
         });
-        levelRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("level", checkedId);
-            editor.apply();
-        });
-        Button returnToMenu = findViewById(R.id.btn_back_to_menu);
-        returnToMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(PlayAgainstPCActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
+//        levelRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putInt("level", checkedId);
+//            editor.apply();
+//        });
+//        Button returnToMenu = findViewById(R.id.btn_back_to_menu);
+//        returnToMenu.setOnClickListener(v -> {
+//            Intent intent = new Intent(PlayAgainstPCActivity.this, MainActivity.class);
+//            startActivity(intent);
+//        });
 
         Button play_button = findViewById(R.id.play);
         play_button.setOnClickListener(v -> {
             Intent intent = new Intent(PlayAgainstPCActivity.this, WaitForBoard.class);
             intent.putExtra("color", sharedPreferences.getInt("color", R.id.rb_color_white));
-            intent.putExtra("level", sharedPreferences.getInt("level", R.id.rb_pc_medium));
+//            intent.putExtra("level", sharedPreferences.getInt("level", R.id.rb_pc_medium));
             RPCService rpc = RPCService.getInstance();
 
             ChallengeAIRequest challengeAIRequest = ChallengeAIRequest.newBuilder()

@@ -54,11 +54,19 @@ class BoardControl:
     def __init__(self):
         self.board_com = None
         self.state_observers = []
+        self.state_observers_callbacks = []
         self.board_serial_listener_thread = threading.Thread(target=self.serialHandler)
         self.last_two_states = [0, 0]
         
     def registerStateObserver(self, observer):
         self.state_observers.append(observer)
+    def registerStateCallback(self, callback):
+        self.state_observers_callbacks.append(callback)
+    
+    def unregisterStateObserver(self, observer):
+        self.state_observers.remove(observer)
+    def unregisterStateCallback(self, callback):
+        self.state_observers_callbacks.remove(callback)
     
     def initialize(self):
         self.board_com = SerialCommunication()
@@ -102,26 +110,10 @@ class BoardControl:
 
                 for observer in self.state_observers:
                     observer.notify_state_changed(state)
-                
+                for callback in self.state_observers_callbacks:
+                    callback(state)
 
-                # # Convert the number into a binary string representation
-                # binary_string = bin(state)[2:].zfill(64)
-
-                # # Split the binary string into rows of 8 characters
-                # rows = [binary_string[i:i+8] for i in range(0, 64, 8)]
-
-                # # Create the matrix by splitting each row into a list of integers
-                # print('#'*20)
-                # for row in rows:
-                #     print('  '.join(row))
-                # print('#'*20)
-
-                # matrix = [list(map(int, row)) for row in rows]
-
-                # print(matrix)
-
-                print(f"Board state changed to {format(state, '064b')}")
-
+                print(f"board state changed: {format(state, '064b')} ({state})")
                 
             elif id == Commands.PING_RESPONSE:
                 print("Ping response")
