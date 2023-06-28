@@ -1,7 +1,7 @@
 import unittest
 import sys
 import os
-sys.path.append(f"{os.getcwd()}/Chessm8/lichess")
+sys.path.append(f"{os.getcwd()}/cm_server/lichess")
 from lichess import lichess, LichessAccount, Board
 
 class TestLichess(unittest.TestCase):

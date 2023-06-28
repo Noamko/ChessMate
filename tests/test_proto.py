@@ -2,9 +2,7 @@
 import unittest
 import sys
 import os
-sys.path.append(f"{os.getcwd()}/Chessm8/build/proto")
-print(f"{os.getcwd()}/build/proto")
-sys.path.append("../build/proto")
+sys.path.append(f"{os.getcwd()}/cm_server/build/proto")
 import grpc
 import message_pb2
 import message_pb2_grpc

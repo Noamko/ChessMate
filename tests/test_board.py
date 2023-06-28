@@ -24,8 +24,8 @@ class TestBoard(unittest.TestCase):
         # create a ping message
         command = Commands.PING_REQUEST
         args = [0]
-        message = Board.BoardRequest.create(command=command, args=args)
-        self.board_com.send(message)
+       
+        self.board_com.send(bytes([command]) + bytes(args))
 
         print("Waiting for response")
         response = int.from_bytes(self.board_com.read(1), byteorder='little')

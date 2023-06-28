@@ -75,12 +75,13 @@ class BoardControl:
                 # reverse the bits
                 b = int('{:08b}'.format(b)[::-1], 2)
             led_state |= b << i * 8
-        command = Board.Commands.SET_LEDS_STATE_REQUEST
+        command = Commands.SET_LEDS_STATE_REQUEST
         command = command.to_bytes(1, "little")
         data_len = 8
         data_len = data_len.to_bytes(4, "little")
         data = led_state.to_bytes(8, "big")
         self.board_com.send(command + data_len + data)
+
 
     def serialHandler(self):
         while True:
@@ -91,12 +92,37 @@ class BoardControl:
                 data_len = int.from_bytes(data_len_bytes, byteorder='little')
                 data_bytes = self.board_com.read(data_len)
                 state = int.from_bytes(data_bytes, byteorder='little')
+
+                ### patch to fix 2 broken cells
+                state = state | 0x200000001 
+                ### end of patch
+
                 self.last_two_states[0] = self.last_two_states[1]
                 self.last_two_states[1] = state
 
                 for observer in self.state_observers:
-                    observer.notify(state)
+                    observer.notify_state_changed(state)
+                
+
+                # # Convert the number into a binary string representation
+                # binary_string = bin(state)[2:].zfill(64)
+
+                # # Split the binary string into rows of 8 characters
+                # rows = [binary_string[i:i+8] for i in range(0, 64, 8)]
+
+                # # Create the matrix by splitting each row into a list of integers
+                # print('#'*20)
+                # for row in rows:
+                #     print('  '.join(row))
+                # print('#'*20)
+
+                # matrix = [list(map(int, row)) for row in rows]
+
+                # print(matrix)
+
                 print(f"Board state changed to {format(state, '064b')}")
+
+                
             elif id == Commands.PING_RESPONSE:
                 print("Ping response")
             elif id == Commands.LOG_MESSAGE:

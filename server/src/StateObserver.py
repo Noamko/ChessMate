@@ -1,14 +1,15 @@
 
 import Board
+import threading
 class StateObserver:
-    def notify(self, state):
+    def notify_state_changed(self, state):
         pass
 
 class WaitForStateObserver(StateObserver):
     def __init__(self, state):
         self.state = state
         self.event = threading.Event()
-    def notify(self, state):
+    def notify_state_changed(self, state):
         # consider setting leds to green where pieces are in place and red where pieces are not in place
         if state == self.state:
             self.event.set()
@@ -19,8 +20,9 @@ class WaitForStateObserver(StateObserver):
 class PieceToLedStateObserver(StateObserver):
     def __init__(self, board_ctl):
         self.board_ctl = board_ctl
-    def notify(self, state):
-        sel.board_ctl.setLedsState(state)
+    def notify_state_changed(self, state):
+        self.board_ctl.setLedsState(state)
+
 
                 
 

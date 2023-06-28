@@ -82,8 +82,6 @@ class lichess:
             
 
 class Board:
-    
-
     def seek(self , rated:bool = False ,time:int = 15,increment:int = 15 , days:int = 1 
     , varient:str = 'standard' , color:str = 'random' , rating_range:str='1000-1200' )->str:
         res = requests.post(f'{LICHESS_API_URL}/board/seek' , headers=AUTH , params= {"rated" : rated , "time": time , 

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.chessmate.command.CommandError;
 import com.chessmate.command.CommandRequest;
 import com.chessmate.command.CommandResponse;
 import com.chessmate.command.EndTurnRequest;
@@ -31,8 +32,12 @@ public class GameActivity extends AppCompatActivity {
         button.setOnClickListener(v -> {
             EndTurnRequest endTurnRequest = EndTurnRequest.newBuilder().build();
             CommandRequest commandRequest = CommandRequest.newBuilder().setEndTurn(endTurnRequest).build();
-
-            RPCService.getInstance().execute(commandRequest);
+            CommandResponse response = RPCService.getInstance().execute(commandRequest);
+            CommandError error = response.getError();
+            if(error.getCode() > 0) {
+                // something went wrong
+                // bad move?
+            }
         });
     }
 }

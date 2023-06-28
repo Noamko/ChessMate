@@ -5,14 +5,17 @@ import threading
 
 import os
 import sys
-sys.path.append(f"{os.getcwd()}/cm_server/board_parser")
 from board_parser import MoveCalculator
+from StateObserver import  StateObserver
+from queue import Queue
 
 class ChessAgent:
-    def notify(self, move):
-        pass
+    def __init__(self):
+        self.move_observers = []
     def do_move(self, board):
         pass
+    def registerMoveObserver(self, observer):
+        self.move_observers.append(observer)
 
 class TerminalAgent(ChessAgent):
     def do_move(self, board):
@@ -34,6 +37,7 @@ class StockfishAgent(ChessAgent):
         self.engine = stockfish.Stockfish()
         self.engine.set_depth(depth)
         self.engine.set_skill_level(level)
+        self.move_observers = []
 
     def do_move(self, board):
         # Print the updated board
@@ -45,23 +49,42 @@ class StockfishAgent(ChessAgent):
         # Make the move on the board
         if move is not None:
             board.push_uci(move)
+            for observer in self.move_observers:
+                observer.notify_move(move)
            
 
-class SerialAgent(ChessAgent):
-    def __init__(self, move_queue):
+class EndTurnObserver:
+    def notify_end_turn(self):
+        pass
+
+class SerialAgent(ChessAgent, StateObserver, EndTurnObserver):
+    def __init__(self):
         self.lock = threading.Lock()
-        self.last_move = None
-        self.move_queue = move_queue
+        self.last_state = None
+        self.current_state = None
+        self.move_queue = Queue()
         self.move_calculator = MoveCalculator()
+        self.last_move = None
+        self.is_my_turn = False
+    
+    def notify_state_changed(self, state):
+        self.last_state = self.current_state
+        self.current_state = state
+        # if self.is_my_turn:
+        #     # get hints
+        #     # fen
+
+    def notify_end_turn(self):
+        self.last_move = self.move_calculator.my_turn(self.current_state ,self.last_state)
+        self.move_queue.put(self.last_move)
+        print("SerialAgent: {}".format(self.last_move))
+        self.is_my_turn = False
+
 
     def do_move(self, board):
         # wait for move
         move = self.move_queue.get()
-        current = move[1]
-        last = move[0]
-        move = self.move_calculator.my_turn(current,last)
-        board.push_uci(move)
-        
-        
-      
-                
+        if board.is_legal(chess.Move.from_uci(move)):
+            board.push_uci(move)
+        else:
+            print("Illegal move: {}".format(move))

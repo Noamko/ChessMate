@@ -39,8 +39,7 @@ def count_set_bits(num):
 
 
 class MoveCalculator:
-    # Start board number 18446462598732906495
-    def __init__(self, start_board=col_to_row(2097280), num_of_pieces=32):
+    def __init__(self, start_board=col_to_row(14106333703424951235), num_of_pieces=32):
         self.board = start_board
         self.num_of_pieces = num_of_pieces
 

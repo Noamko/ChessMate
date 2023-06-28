@@ -5,10 +5,9 @@
         "./tests",
         "-p",
         "test_*.py"
+        // "-t",
+        // "./cm_server"
     ],
-    "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": true,
-    "python.testing.pytestArgs": [
-        "tests"
-    ]
+    "python.testing.pytestEnabled": false
 }

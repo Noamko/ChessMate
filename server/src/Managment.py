@@ -5,9 +5,7 @@ import stockfish
 import chess
 import os
 import sys
-sys.path.append(f"{os.getcwd()}/cm_server/GameManager")
-from GameManager import Agent
-from Agent import SerialAgent, ChessAgent
+from Agent import ChessAgent, SerialAgent
 
 class GameManager:
     def __init__(self):
@@ -21,25 +19,30 @@ class GameManager:
         self.current_game = Game(white_agent, black_agent)
         self.current_game_thread = threading.Thread(target=self.current_game.start)
         self.current_game_thread.start()
+    
+    def get_current_game(self):
         return self.current_game
 
 class Game:
     def __init__(self, white_agent: SerialAgent, black_agent: ChessAgent):
         self.white_agent = white_agent
         self.black_agent = black_agent
+        self.board = chess.Board()
         
+    def getFEN(self):
+        return self.board.fen()
+
     def start(self):
         # start the game
-        board = chess.Board()
-        while not board.is_game_over():
-            self.white_agent.do_move(board)
-            print(board)
-            self.black_agent.do_move(board)
-            print(board)
+        while not self.board.is_game_over():
+            self.white_agent.do_move(self.board)
+            print(self.board)
+            self.black_agent.do_move(self.board)
+            print(self.board)
             # Print the updated board
 
         # Game is over
-        result = board.result()
+        result = self.board.result()
         print("Game over. Result: {}".format(result))
         return result
                     
