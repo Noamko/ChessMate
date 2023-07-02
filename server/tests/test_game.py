@@ -2,10 +2,10 @@ import unittest
 import sys
 import os
 # os.chdir("/Users/noamk/projects/ChessMate")
-sys.path.append(f"{os.getcwd()}/cm_server/CMGame")
-# sys.path.append(f"{os.getcwd()}/cm_server/Board")
+
+sys.path.append(f"{os.getcwd()}/server/src")
 # sys.path.append(f"../GameManager")
-# import GameManager.GameManager
+# import GameManager
 # import StockfishAgent
 # import Board.Board
 # import CMGame.Managment

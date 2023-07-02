@@ -70,7 +70,6 @@ class SerialAgent(ChessAgent, StateObserver, EndTurnObserver):
     def notify_state_changed(self, state):
         self.last_state = self.current_state
         self.current_state = state
-        print("xor state: {}".format(self.current_state ^ self.last_state))
         # if self.is_my_turn:
         #     # get hints
         #     # fen
@@ -88,8 +87,10 @@ class SerialAgent(ChessAgent, StateObserver, EndTurnObserver):
 
     def do_move(self, board):
         # wait for move
+
         move = self.move_queue.get()
         if board.is_legal(chess.Move.from_uci(move)):
             board.push_uci(move)
         else:
             print("Illegal move: {}".format(move))
+            self.do_move(board)

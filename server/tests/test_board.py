@@ -1,11 +1,14 @@
 # create a grpc client
 import unittest
+import time
 import sys
 import os
-sys.path.append(f"{os.getcwd()}/cm_server/Board")
-import time
-import Board
-from Board import Commands
+sys.path.append(f"{os.getcwd()}/server/src")
+
+print(sys.path)
+
+import Agent
+# from Board import Commands
 import serial.tools.list_ports
 class TestBoard(unittest.TestCase):
     def setUp(self):

@@ -7,7 +7,6 @@ import serial.tools.list_ports
 
 import os
 import sys
-sys.path.append(f"{os.getcwd()}/cm_server/board_parser")
 from  board_parser import MoveCalculator
 
 class Commands:
@@ -89,8 +88,10 @@ class BoardControl:
         data_len = data_len.to_bytes(4, "little")
         data = led_state.to_bytes(8, "big")
         self.board_com.send(command + data_len + data)
-
-
+    
+    def getBoardState(self):
+        return self.last_two_states[1]
+      
     def serialHandler(self):
         while True:
             id = int.from_bytes(self.board_com.read(1)) # blocking
@@ -114,6 +115,14 @@ class BoardControl:
                     callback(state)
 
                 print(f"board state changed: {format(state, '064b')} ({state})")
+            
+            elif id == Commands.GET_BOARD_STATE_RESPONSE:
+                # get the board state
+                data_len_bytes = self.board_com.read(4)
+                data_len = int.from_bytes(data_len_bytes, byteorder='little')
+                data_bytes = self.board_com.read(data_len)
+                state = int.from_bytes(data_bytes, byteorder='little')
+                print(f"board state: {format(state, '064b')} ({state})")
                 
             elif id == Commands.PING_RESPONSE:
                 print("Ping response")

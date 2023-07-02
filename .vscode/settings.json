@@ -1,13 +1,12 @@
 {
+
+    // "python.testing.unittestEnabled": false,
+    "python.testing.unittestEnabled": true,
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./tests",
+        "./server/tests",
         "-p",
         "test_*.py"
-        // "-t",
-        // "./cm_server"
-    ],
-    "python.testing.unittestEnabled": true,
-    "python.testing.pytestEnabled": false
+    ]
 }

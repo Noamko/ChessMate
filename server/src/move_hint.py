@@ -11,8 +11,6 @@ def get_possible_moves(fen, square):
     for move in board.legal_moves:
         if move.from_square == square:
             piece_moves.append(move.uci())
-            
-
     return piece_moves
 
 def get_square(curr_board, prev_board):

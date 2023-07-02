@@ -18,4 +18,9 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+
+    <style name="CustomTooltipTextAppearance" parent="TextAppearance.MaterialComponents.Tooltip">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

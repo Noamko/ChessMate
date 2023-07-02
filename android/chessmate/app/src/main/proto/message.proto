@@ -14,10 +14,10 @@ message CommandRequest {
     oneof command {
         ChallengeAIRequest challengeAI = 2;
         ChallengeLichessRequest challengeLichess = 3;
-        GetClockRequest getClock = 4;
-        EndTurnRequest endTurn = 5;
-        GetBoardStateRequest getBoardState = 6;
-        GetEvaluationRequest getEvaluation = 7;
+        EndTurnRequest endTurn = 4;
+        GetBoardStateRequest getBoardState = 5;
+        GetEvaluationRequest getEvaluation = 6;
+		ResetRequest reset = 7;
     }
 }
 
@@ -25,11 +25,10 @@ message CommandResponse {
     oneof command {
         ChallengeAIResponse challengeAI = 1;
         ChallengeLichessResponse challengeLichess = 2;
-        GetClockResponse getClock = 3;
-        EndTurnResponse endTurn = 4;
-        GetBoardStateResponse getBoardState = 5;
-        GetEvaluationResponse getEvaluation = 6;
-        CommandError error = 7;
+        EndTurnResponse endTurn = 3;
+        GetBoardStateResponse getBoardState = 4;
+        GetEvaluationResponse getEvaluation = 5;
+        CommandError error = 6;
     }
 }
 enum color {
@@ -38,10 +37,7 @@ enum color {
         RANDOM = 2;
 }
 
-message timer {
-    int32 blackTime = 1;
-    int32 whiteTime = 2;
-}
+message ResetRequest {}
 
 message ChallengeAIRequest {
     int32 level = 1;
@@ -55,7 +51,6 @@ message ChallengeLichessRequest {
     string lichessid = 2;
 }
 
-message GetClockRequest {}
 
 message EndTurnRequest {
     string move = 2;
@@ -64,11 +59,6 @@ message EndTurnRequest {
 message GetBoardStateRequest {}
 
 message GetEvaluationRequest {}
-
-message GetClockResponse {
-    int32 white = 1;
-    int32 black = 2;
-}
 
 message GetBoardStateResponse {
     uint64 state = 1;

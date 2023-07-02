@@ -1,6 +1,8 @@
 #pragma once
 #define ERROR 0xFF
 #define BOARD_STATE_CHANGED 0xAA
+#define GET_BOARD_STATE_REQUEST 0xA2
+#define GET_BOARD_STATE_RESPONSE 0xA3
 #define PING_REQUEST 0xA0
 #define PING_RESPONSE 0xA1
 #define SEND_LOG 0xA8

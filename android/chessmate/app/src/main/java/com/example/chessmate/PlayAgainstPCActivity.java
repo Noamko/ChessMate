@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +14,7 @@ import com.chessmate.command.CommandRequest;
 import com.chessmate.command.CommandResponse;
 import com.chessmate.command.color;
 import com.example.chessmate.R;
+import com.google.android.material.slider.Slider;
 import com.google.type.Color;
 
 import io.grpc.ManagedChannel;
@@ -27,10 +29,17 @@ public class PlayAgainstPCActivity extends AppCompatActivity {
 
         // Get references to the views
         RadioGroup colorRadioGroup = findViewById(R.id.group_choose_color);
-//        RadioGroup levelRadioGroup = findViewById(R.id.group_pc_level);
 
         // Get the SharedPreferences object
         SharedPreferences sharedPreferences = getSharedPreferences("com.example.chessmate", MODE_PRIVATE);
+        Slider eloSlider = findViewById(R.id.elo_slider);
+
+        eloSlider.addOnChangeListener((slider, value, user) -> {
+//            eloText.setText(String.valueOf((int)(value)));
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("ai_elo", (int)value);
+            editor.apply();
+        });
 
         // Set the default values if they are not set yet
         if (!sharedPreferences.contains("color")) {
@@ -40,13 +49,8 @@ public class PlayAgainstPCActivity extends AppCompatActivity {
         }
         if (!sharedPreferences.contains("level")) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-//            editor.putInt("level", R.id.rb_pc_easy);
             editor.apply();
         }
-
-        // Set the selected values in the radio groups
-        colorRadioGroup.check(sharedPreferences.getInt("color", R.id.rb_color_white));
-//        levelRadioGroup.check(sharedPreferences.getInt("level", R.id.rb_pc_easy));
 
         // Set listeners to save the selected values when changed
         colorRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -54,31 +58,14 @@ public class PlayAgainstPCActivity extends AppCompatActivity {
             editor.putInt("color", checkedId);
             editor.apply();
         });
-//        levelRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//            editor.putInt("level", checkedId);
-//            editor.apply();
-//        });
-//        Button returnToMenu = findViewById(R.id.btn_back_to_menu);
-//        returnToMenu.setOnClickListener(v -> {
-//            Intent intent = new Intent(PlayAgainstPCActivity.this, MainActivity.class);
-//            startActivity(intent);
-//        });
 
         Button play_button = findViewById(R.id.play);
         play_button.setOnClickListener(v -> {
             Intent intent = new Intent(PlayAgainstPCActivity.this, WaitForBoard.class);
-            intent.putExtra("color", sharedPreferences.getInt("color", R.id.rb_color_white));
-//            intent.putExtra("level", sharedPreferences.getInt("level", R.id.rb_pc_medium));
-            RPCService rpc = RPCService.getInstance();
-
-            ChallengeAIRequest challengeAIRequest = ChallengeAIRequest.newBuilder()
-                    .setColor(color.WHITE)
-                    .setLevel(10)
-                    .setBlackTimer(0)
-                    .setWhiteTimer(0)
-                    .build();
-            rpc.execute(CommandRequest.newBuilder().setChallengeAI(challengeAIRequest).build());
+            intent.putExtra("isWhite", colorRadioGroup.getCheckedRadioButtonId() == R.id.rb_color_white);
+            intent.putExtra("ai_elo", (int)eloSlider.getValue());
+            intent.putExtra("black_time",1000 * 60 * 5);
+            intent.putExtra("white_time",1000 * 60 * 5);
             startActivity(intent);
         });
     }

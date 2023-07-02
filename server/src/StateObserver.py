@@ -17,11 +17,6 @@ class WaitForStateObserver(StateObserver):
         self.event.wait()
         
 # test observer
-class PieceToLedStateObserver(StateObserver):
-    def __init__(self, board_ctl):
-        self.board_ctl = board_ctl
-    def notify_state_changed(self, state):
-        self.board_ctl.setLedsState(state)
 
 
                 

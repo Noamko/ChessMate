@@ -2,13 +2,13 @@ import os
 import sys
 sys.path.append(f"{os.getcwd()}/server/build/proto")
 from message_pb2 import CommandRequest, CommandResponse, CommandError
-from Managment import GameManager
+from GameManagment import GameManager
 from concurrent import futures
 from Board import BoardControl
 import Agent
 import message_pb2_grpc
 import StateObserver
-from StateObserver import PieceToLedStateObserver, WaitForStateObserver
+from StateObserver import WaitForStateObserver
 import threading
 import grpc
 import time
@@ -17,6 +17,8 @@ import board_parser
 import translator
 import parsing_utils
 
+DEFUALT_START_BOARD = 14106333703424951235
+
 class OpponentLedSetObserver():
     def __init__(self, board_ctl):
         self.board_ctl = board_ctl
@@ -24,15 +26,22 @@ class OpponentLedSetObserver():
         leds_to_lit = translator.uci_to_board(move)
         self.board_ctl.setLedsState(leds_to_lit)
 
+class PieceToLedStateObserver():
+    def __init__(self, board_ctl):
+        self.board_ctl = board_ctl
+    def notify_state_changed(self, state):
+        self.board_ctl.setLedsState(state)
+
+
 class CMEngine(message_pb2_grpc.CommandServicer):
     def __init__(self):
         self.game_manager = GameManager()
         self.board_ctl = BoardControl() # Board communication
         self.move_queue = Queue()
         self.end_turn_observers = []
-
-        # observer = PieceToLedStateObserver(self.board_ctl)
-        # self.board_ctl.registerStateObserver(observer)
+        if False:
+            obs = PieceToLedStateObserver(self.board_ctl)
+            self.board_ctl.registerStateObserver(obs)
 
     def start(self):
         # initialize board
@@ -58,15 +67,19 @@ class CMEngine(message_pb2_grpc.CommandServicer):
             > if the command is recognized but the arguments are invalid, return an error
         '''
 
+        if command == "reset":
+            print("got reset command, deleting game")
+            self.game_manager.delete_game()
+            
         if command == "challengeAI":
             if self.game_manager.current_game  is not None:
                 res.error.msg = "Already in a game"
+                res.error.code = 1
                 return response
             else:
                 # create a new game
                 level: int = request.challengeAI.level
                 color = request.challengeAI.color
-
 
                 serialAgent = Agent.SerialAgent()
                 self.board_ctl.registerStateObserver(serialAgent)
@@ -76,12 +89,16 @@ class CMEngine(message_pb2_grpc.CommandServicer):
                 stockfish_move_observer = OpponentLedSetObserver(self.board_ctl)
                 stockfish_agent.registerMoveObserver(stockfish_move_observer)
 
-                unplaced_lambda = lambda state: (self.board_ctl.setLedsState(state ^ 14106333703424951235))
+                unplaced_lambda = lambda state: (self.board_ctl.setLedsState(state ^ DEFUALT_START_BOARD))
                 self.board_ctl.registerStateCallback(unplaced_lambda)
-                waitforstate = WaitForStateObserver(14106333703424951235)
-                self.board_ctl.registerStateObserver(waitforstate) 
-                waitforstate.wait() # wait for the board to be ready
-                self.board_ctl.unregisterStateCallback(unplaced_lambda)
+                waitforstate = WaitForStateObserver(DEFUALT_START_BOARD)
+                
+                state = self.board_ctl.getBoardState()
+                if state != DEFUALT_START_BOARD:
+                    self.board_ctl.setLedsState(state ^ DEFUALT_START_BOARD)
+                    self.board_ctl.registerStateObserver(waitforstate) 
+                    waitforstate.wait() # wait for the board to be ready
+                    self.board_ctl.unregisterStateCallback(unplaced_lambda)
                 print("Board is ready")
 
                 if color == 0:
@@ -115,10 +132,6 @@ class CMEngine(message_pb2_grpc.CommandServicer):
             print("wait for board release")
             self.board_ctl.setLedsState(0)
             return response
-
-        elif command == "getBoardState":
-            response.getBoardState.state = 0xffff00000000ffff
-            return response
-            print("getBoardState")
+            
         response.error.msg = "No such command"
         return response

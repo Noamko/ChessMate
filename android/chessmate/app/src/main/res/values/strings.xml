@@ -12,12 +12,12 @@
     <string name="main_menu">Main menu</string>
 
     <!-- Colors -->
-    <string name="select_color">Select color</string>
+    <string name="select_color">Preferable pieces</string>
     <string name="Black_color">Black</string>
     <string name="White_color">White</string>
 
     <!-- Opponent level -->
-    <string name="select_opponent_level">Select opponent level</string>
+    <string name="select_opponent_level">Elo rating</string>
     <string name="easy_level">Easy</string>
     <string name="medium_level">Medium</string>
     <string name="high_level">Hard</string>
